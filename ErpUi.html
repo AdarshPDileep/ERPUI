@@ -1,1455 +1,1531 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AcmeERP — Enterprise Resource Platform</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Bricolage+Grotesque:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --emerald: #059669;
-    --emerald-light: #10b981;
-    --emerald-soft: #d1fae5;
-    --emerald-faint: #ecfdf5;
-    --slate-900: #0f172a;
-    --slate-700: #334155;
-    --slate-500: #64748b;
-    --slate-400: #94a3b8;
-    --slate-300: #cbd5e1;
-    --slate-200: #e2e8f0;
-    --slate-100: #f1f5f9;
-    --slate-50: #f8fafc;
-    --white: #ffffff;
-    --amber: #f59e0b;
-    --red: #ef4444;
-    --violet: #7c3aed;
-    --blue: #2563eb;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AcmeERP — Enterprise Resource Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0040e0;
+      --primary-container: #2e5bff;
+      --on-primary: #ffffff;
+      --secondary: #545f73;
+      --secondary-container: #d8e3fb;
+      --tertiary: #3e3fcc;
+      --tertiary-container: #585be6;
+      --background: #f7f9fb;
+      --surface: #ffffff;
+      --on-surface: #191c1e;
+      --surface-variant: #e0e3e5;
+      --on-surface-variant: #434656;
+      --outline: #e2e8f0;
+      --error: #ba1a1a;
 
-    --sidebar-w: 228px;
-    --sub-w: 236px;
-    --topbar-h: 58px;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow-xs: 0 1px 2px rgba(15,23,42,.05);
-    --shadow-sm: 0 2px 8px rgba(15,23,42,.07), 0 1px 3px rgba(15,23,42,.04);
-    --shadow-md: 0 8px 24px rgba(15,23,42,.10);
-    --shadow-lg: 0 16px 48px rgba(15,23,42,.14);
-    --transition: .16s cubic-bezier(.4,0,.2,1);
-    --sidebar-bg: #ffffff;
-    --sub-bg: #fafbfc;
-  }
+      --slate-900: #0f172a;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --slate-400: #94a3b8;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      --sidebar-w: 240px;
+      --sidebar-collapsed-w: 64px;
+      --drill-w: 240px;
+      --topbar-h: 64px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, .05);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, .07), 0 1px 3px rgba(15, 23, 42, .04);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, .10);
+      --transition: .3s cubic-bezier(.4, 0, .2, 1);
+    }
 
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--slate-50);
-    color: var(--slate-700);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+    body.sidebar-collapsed {
+      --sidebar-w: var(--sidebar-collapsed-w);
+    }
 
-  /* ── TOPBAR ── */
-  .topbar {
-    height: var(--topbar-h);
-    background: var(--white);
-    border-bottom: 1px solid var(--slate-200);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    gap: 14px;
-    flex-shrink: 0;
-    z-index: 100;
-    box-shadow: var(--shadow-xs);
-  }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  .topbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: var(--sidebar-w);
-    flex-shrink: 0;
-    text-decoration: none;
-  }
-  .logo-mark {
-    width: 34px; height: 34px;
-    background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-light) 100%);
-    border-radius: 10px;
-    display: grid; place-items: center;
-    box-shadow: 0 3px 10px rgba(5,150,105,.3);
-  }
-  .logo-mark svg { width: 17px; height: 17px; }
-  .logo-text {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--slate-900);
-    letter-spacing: -.4px;
-  }
-  .logo-text span { color: var(--emerald); }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--on-surface);
+      height: 100vh;
+      line-height: 1.5;
+      overflow: hidden;
+    }
 
-  .topbar-hamburger {
-    background: none; border: none; cursor: pointer; padding: 7px;
-    border-radius: 8px; color: var(--slate-400);
-    transition: background var(--transition), color var(--transition);
-  }
-  .topbar-hamburger:hover { background: var(--slate-100); color: var(--slate-600); }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 20px;
+    }
 
-  .topbar-search {
-    flex: 1; max-width: 400px;
-    display: flex; align-items: center; gap: 8px;
-    background: var(--slate-50);
-    border: 1.5px solid var(--slate-200);
-    border-radius: 10px;
-    padding: 0 12px;
-    height: 38px;
-    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-  }
-  .topbar-search:focus-within {
-    border-color: var(--emerald-light);
-    box-shadow: 0 0 0 3px rgba(16,185,129,.12);
-    background: var(--white);
-  }
-  .topbar-search svg { color: var(--slate-400); flex-shrink: 0; }
-  .topbar-search input {
-    border: none; background: none; outline: none;
-    font-family: inherit; font-size: 13.5px;
-    color: var(--slate-700); width: 100%;
-  }
-  .topbar-search input::placeholder { color: var(--slate-400); }
-  .search-kbd {
-    font-size: 10px; color: var(--slate-400);
-    background: var(--slate-200); border-radius: 5px;
-    padding: 2px 6px; white-space: nowrap;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    letter-spacing: -.2px;
-  }
+    /* ── TOPBAR ── */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topbar-h);
+      background: var(--surface);
+      border-bottom: 1px solid var(--outline);
+      display: flex;
+      align-items: center;
+      padding: 0;
+      height: var(--topbar-h);
+      z-index: 100;
+      box-shadow: var(--shadow-xs);
+    }
 
-  .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 7px; }
+    .topbar-toggle-area {
+      width: var(--sidebar-collapsed-w);
+      display: flex;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-  .btn-new {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--emerald); color: white;
-    border: none; border-radius: 9px;
-    padding: 0 15px; height: 36px;
-    font-family: inherit; font-size: 13px; font-weight: 600;
-    cursor: pointer;
-    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-    box-shadow: 0 2px 8px rgba(5,150,105,.25);
-  }
-  .btn-new:hover {
-    background: #047857;
-    box-shadow: 0 4px 14px rgba(5,150,105,.35);
-    transform: translateY(-1px);
-  }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--slate-900);
+      white-space: nowrap;
+      margin-right: 24px;
+    }
 
-  .icon-btn {
-    width: 36px; height: 36px;
-    background: var(--white); border: 1.5px solid var(--slate-200);
-    border-radius: 9px; cursor: pointer;
-    display: grid; place-items: center;
-    color: var(--slate-400);
-    position: relative;
-    transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
-  }
-  .icon-btn:hover { background: var(--slate-50); color: var(--slate-600); border-color: var(--slate-300); box-shadow: var(--shadow-xs); }
-  .badge {
-    position: absolute; top: -5px; right: -5px;
-    background: var(--emerald); color: white;
-    border-radius: 9px; min-width: 17px; height: 17px;
-    font-size: 9px; font-weight: 700;
-    display: grid; place-items: center;
-    border: 2px solid white;
-  }
+    .topbar-search {
+      flex: 1;
+      max-width: 600px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--slate-50);
+      border-radius: 8px;
+      padding: 0 12px;
+      height: 36px;
+      border: 1px solid transparent;
+      transition: var(--transition);
+    }
 
-  .lang-btn {
-    display: flex; align-items: center; gap: 5px;
-    background: var(--white); border: 1.5px solid var(--slate-200);
-    border-radius: 9px; padding: 0 11px; height: 36px;
-    font-family: inherit; font-size: 12.5px; font-weight: 500;
-    color: var(--slate-500); cursor: pointer;
-    transition: background var(--transition), border-color var(--transition);
-  }
-  .lang-btn:hover { background: var(--slate-50); border-color: var(--slate-300); }
+    .topbar-search:focus-within {
+      background: var(--surface);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0, 64, 224, 0.08);
+    }
 
-  .user-pill {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--white); border: 1.5px solid var(--slate-200);
-    border-radius: 10px; padding: 4px 11px 4px 4px; height: 36px;
-    cursor: pointer; transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
-  }
-  .user-pill:hover { background: var(--slate-50); border-color: var(--slate-300); box-shadow: var(--shadow-xs); }
-  .avatar {
-    width: 28px; height: 28px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--emerald-light), var(--emerald));
-    display: grid; place-items: center;
-    font-size: 11px; font-weight: 700; color: white;
-    box-shadow: 0 2px 6px rgba(5,150,105,.2);
-  }
-  .user-name { font-size: 12.5px; font-weight: 600; color: var(--slate-700); }
-  .user-role { font-size: 10.5px; color: var(--slate-400); }
+    .topbar-search .material-symbols-outlined {
+      color: var(--slate-400);
+      font-size: 18px;
+    }
 
-  /* ── BODY ── */
-  .app-body {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
+    .topbar-search input {
+      border: none;
+      background: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 14.5px;
+      color: var(--slate-700);
+      width: 100%;
+    }
 
-  /* ══ PRIMARY SIDEBAR — CLEAN LIGHT ══ */
-  .sidebar {
-    width: var(--sidebar-w);
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--slate-200);
-    display: flex; flex-direction: column;
-    flex-shrink: 0;
-    overflow-y: auto;
-    position: relative;
-  }
-  .sidebar::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--slate-200) 20%, var(--slate-200) 80%, transparent);
-  }
-  .sidebar::-webkit-scrollbar { width: 0; }
+    .topbar-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-  .sidebar-logo-area {
-    padding: 18px 14px 14px;
-    border-bottom: 1px solid var(--slate-100);
-  }
+    .topbar-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--outline);
+      margin: 0 12px;
+    }
 
-  .sidebar-section { padding: 16px 10px 4px; }
-  .sidebar-section-label {
-    font-size: 9.5px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px;
-    color: var(--slate-400); padding: 0 8px; margin-bottom: 4px;
-  }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--slate-500);
+      position: relative;
+      transition: var(--transition);
+    }
 
-  .nav-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 10px; border-radius: 9px;
-    cursor: pointer; font-size: 13px; font-weight: 500;
-    color: var(--slate-500);
-    transition: background var(--transition), color var(--transition), transform var(--transition);
-    position: relative; user-select: none;
-    margin-bottom: 1px;
-  }
-  .nav-item:hover {
-    background: var(--slate-50);
-    color: var(--slate-700);
-    transform: translateX(1px);
-  }
-  .nav-item.active {
-    background: var(--emerald-faint);
-    color: var(--emerald);
-    font-weight: 600;
-  }
-  .nav-item.active .nav-icon-wrap {
-    background: var(--emerald-soft);
-    color: var(--emerald);
-  }
-  .nav-icon-wrap {
-    width: 28px; height: 28px; border-radius: 7px;
-    display: grid; place-items: center;
-    background: transparent;
-    transition: background var(--transition), color var(--transition);
-    flex-shrink: 0;
-  }
-  .nav-item:hover .nav-icon-wrap {
-    background: var(--slate-100);
-  }
-  .nav-item svg { width: 15px; height: 15px; }
-  .nav-item .nav-badge {
-    margin-left: auto; font-size: 10px; font-weight: 700;
-    background: var(--emerald-soft); color: var(--emerald);
-    border-radius: 20px; padding: 2px 8px;
-    line-height: 1.4;
-  }
-  .nav-item.active .nav-badge {
-    background: rgba(5,150,105,.15);
-  }
+    .icon-btn:hover {
+      background: var(--slate-100);
+      color: var(--slate-900);
+    }
 
-  .sidebar-divider {
-    margin: 6px 14px;
-    border: none;
-    border-top: 1px solid var(--slate-100);
-  }
+    .icon-btn .badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--error);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--surface);
+    }
 
-  .sidebar-footer {
-    margin-top: auto; padding: 10px 10px 14px;
-    border-top: 1px solid var(--slate-100);
-    background: linear-gradient(to bottom, transparent, var(--slate-50));
-  }
-  .collapse-btn {
-    display: flex; align-items: center; gap: 8px;
-    width: 100%; padding: 7px 10px;
-    background: none; border: none; border-radius: 8px;
-    cursor: pointer; font-family: inherit; font-size: 12.5px; font-weight: 500;
-    color: var(--slate-400);
-    transition: background var(--transition), color var(--transition);
-  }
-  .collapse-btn:hover { background: var(--slate-100); color: var(--slate-600); }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 4px 4px 12px;
+      cursor: pointer;
+    }
 
-  /* ══ SECONDARY PANEL — REFINED LIGHT ══ */
-  .sub-panel {
-    width: var(--sub-w);
-    background: var(--sub-bg);
-    border-right: 1px solid var(--slate-200);
-    display: flex; flex-direction: column;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-  .sub-panel::-webkit-scrollbar { width: 0; }
+    .user-info {
+      text-align: right;
+    }
 
-  .sub-header {
-    padding: 18px 16px 12px;
-    border-bottom: 1px solid var(--slate-100);
-    background: var(--white);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  .sub-header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 12px;
-  }
-  .sub-header h2 {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 15px; font-weight: 700;
-    color: var(--slate-900);
-    letter-spacing: -.3px;
-  }
-  .sub-header-badge {
-    font-size: 10.5px; font-weight: 600;
-    background: var(--emerald-soft); color: var(--emerald);
-    border-radius: 20px; padding: 2px 9px;
-  }
-  .sub-tabs {
-    display: flex; gap: 2px;
-    background: var(--slate-100);
-    border-radius: 8px;
-    padding: 3px;
-  }
-  .sub-tab {
-    flex: 1; padding: 5px 0; text-align: center;
-    font-size: 11.5px; font-weight: 600;
-    border-radius: 6px; cursor: pointer;
-    color: var(--slate-500);
-    transition: background var(--transition), color var(--transition), box-shadow var(--transition);
-  }
-  .sub-tab.active {
-    background: var(--white);
-    color: var(--slate-800);
-    box-shadow: var(--shadow-xs);
-  }
-  .sub-tab:hover:not(.active) { color: var(--slate-700); }
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate-900);
+    }
 
-  .sub-menu { padding: 10px 8px 16px; }
-  .sub-menu-label {
-    font-size: 9.5px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px;
-    color: var(--slate-400); padding: 8px 10px 4px;
-  }
-  .sub-item {
-    display: flex; align-items: center; gap: 9px;
-    padding: 7px 10px; border-radius: 8px;
-    cursor: pointer; font-size: 12.5px; font-weight: 500;
-    color: var(--slate-500);
-    transition: background var(--transition), color var(--transition), transform var(--transition);
-    margin-bottom: 1px;
-    position: relative;
-  }
-  .sub-item:hover {
-    background: var(--white);
-    color: var(--slate-700);
-    transform: translateX(2px);
-    box-shadow: var(--shadow-xs);
-  }
-  .sub-item.active {
-    background: var(--emerald-faint);
-    color: var(--emerald);
-    font-weight: 600;
-  }
-  .sub-item.active::before {
-    content: '';
-    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    width: 3px; height: 16px; border-radius: 0 3px 3px 0;
-    background: var(--emerald);
-  }
-  .sub-item svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .sub-item .count {
-    margin-left: auto; font-size: 10.5px; font-weight: 700;
-    color: var(--slate-400);
-    background: var(--slate-100);
-    border-radius: 20px; padding: 1px 7px;
-    transition: background var(--transition), color var(--transition);
-  }
-  .sub-item.active .count {
-    background: var(--emerald-soft);
-    color: var(--emerald);
-  }
+    .user-role {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      background: rgba(0, 64, 224, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+    }
 
-  /* Section divider for sub menu */
-  .sub-section-divider {
-    margin: 8px 10px;
-    border: none;
-    border-top: 1px dashed var(--slate-200);
-  }
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--outline);
+    }
 
-  /* ── WORKSPACE ── */
-  .workspace {
-    flex: 1; display: flex; flex-direction: column;
-    overflow: hidden;
-  }
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: var(--topbar-h);
+      bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--outline);
+      display: flex;
+      flex-direction: column;
+      z-index: 60;
+      padding: 12px 0;
+      transition: width var(--transition);
+      overflow: hidden;
+    }
 
-  .breadcrumb {
-    display: flex; align-items: center; gap: 6px;
-    padding: 10px 22px;
-    font-size: 12px; color: var(--slate-400); font-weight: 500;
-    border-bottom: 1px solid var(--slate-200);
-    background: var(--white);
-    flex-shrink: 0;
-  }
-  .breadcrumb a { color: var(--slate-500); text-decoration: none; transition: color var(--transition); }
-  .breadcrumb a:hover { color: var(--emerald); }
-  .breadcrumb .sep { color: var(--slate-300); }
-  .breadcrumb .current { color: var(--slate-700); font-weight: 600; }
+    .sidebar-toggle-area {
+      padding: 0 14px;
+      margin-bottom: 12px;
+    }
 
-  .workspace-inner {
-    flex: 1; overflow: auto;
-    padding: 22px;
-    display: flex; flex-direction: column; gap: 20px;
-  }
-  .workspace-inner::-webkit-scrollbar { width: 6px; }
-  .workspace-inner::-webkit-scrollbar-thumb { background: var(--slate-200); border-radius: 4px; }
+    .sidebar-logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px;
+      margin-bottom: 24px;
+      height: 40px;
+      overflow: hidden;
+    }
 
-  /* ── PANEL CARD ── */
-  .panel {
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-xs);
-    overflow: hidden;
-  }
-  .panel-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--slate-100);
-  }
-  .panel-header h3 {
-    font-size: 13.5px; font-weight: 700; color: var(--slate-800);
-    flex: 1; letter-spacing: -.2px;
-  }
-  .panel-header .panel-badge {
-    font-size: 11px; color: var(--slate-400); font-weight: 500;
-  }
-  .panel-actions { display: flex; gap: 4px; }
-  .panel-btn {
-    width: 28px; height: 28px; border: none; background: none;
-    border-radius: 7px; cursor: pointer; color: var(--slate-400);
-    display: grid; place-items: center;
-    transition: background var(--transition), color var(--transition);
-  }
-  .panel-btn:hover { background: var(--slate-100); color: var(--slate-600); }
+    .sidebar-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-container);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--on-primary);
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(46, 91, 255, 0.2);
+    }
 
-  /* ── STATS ROW ── */
-  .stats-row {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-  }
-  .stat-card {
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    box-shadow: var(--shadow-xs);
-    transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
-    position: relative; overflow: hidden;
-  }
-  .stat-card::before {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--emerald), var(--emerald-light));
-    border-radius: 0 0 12px 12px;
-    opacity: 0;
-    transition: opacity var(--transition);
-  }
-  .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--emerald-soft); }
-  .stat-card:hover::before { opacity: 1; }
-  .stat-label { font-size: 11.5px; color: var(--slate-500); margin-bottom: 8px; font-weight: 500; }
-  .stat-value {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 28px; font-weight: 800; color: var(--slate-900);
-    line-height: 1; letter-spacing: -.5px;
-  }
-  .stat-sub { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
-  .stat-delta {
-    font-size: 11px; font-weight: 700;
-    padding: 2px 8px; border-radius: 20px;
-  }
-  .stat-delta.up { background: var(--emerald-soft); color: var(--emerald); }
-  .stat-delta.down { background: #fee2e2; color: #dc2626; }
-  .stat-period { font-size: 11px; color: var(--slate-400); }
+    .sidebar-logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--slate-900);
+      white-space: nowrap;
+      opacity: 1;
+      transition: opacity var(--transition);
+    }
 
-  /* ── TABLE ── */
-  .table-toolbar {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--slate-100);
-  }
-  .table-search {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--slate-50);
-    border: 1.5px solid var(--slate-200);
-    border-radius: 8px; padding: 0 10px; height: 34px;
-    width: 210px;
-    transition: border-color var(--transition), box-shadow var(--transition);
-  }
-  .table-search:focus-within {
-    border-color: var(--emerald-light);
-    box-shadow: 0 0 0 3px rgba(16,185,129,.1);
-    background: var(--white);
-  }
-  .table-search input {
-    border: none; background: none; outline: none;
-    font-family: inherit; font-size: 12.5px; color: var(--slate-700); width: 100%;
-  }
-  .table-search input::placeholder { color: var(--slate-400); }
-  .filter-btn {
-    display: flex; align-items: center; gap: 5px;
-    background: var(--white); border: 1.5px solid var(--slate-200);
-    border-radius: 8px; padding: 0 11px; height: 34px;
-    font-family: inherit; font-size: 12.5px; font-weight: 500; color: var(--slate-500);
-    cursor: pointer; transition: background var(--transition), border-color var(--transition);
-  }
-  .filter-btn:hover { background: var(--slate-50); border-color: var(--slate-300); }
-  .add-btn {
-    margin-left: auto;
-    display: flex; align-items: center; gap: 6px;
-    background: var(--emerald); color: white;
-    border: none; border-radius: 8px; padding: 0 14px; height: 34px;
-    font-family: inherit; font-size: 12.5px; font-weight: 600;
-    cursor: pointer;
-    transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-    box-shadow: 0 2px 6px rgba(5,150,105,.2);
-  }
-  .add-btn:hover { background: #047857; box-shadow: 0 4px 12px rgba(5,150,105,.3); transform: translateY(-1px); }
+    body.sidebar-collapsed .sidebar-logo-text {
+      opacity: 0;
+    }
 
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    text-align: left; padding: 10px 16px;
-    font-size: 10.5px; font-weight: 700; color: var(--slate-500);
-    text-transform: uppercase; letter-spacing: .6px;
-    border-bottom: 1px solid var(--slate-100);
-    background: var(--slate-50);
-  }
-  tbody tr {
-    border-bottom: 1px solid var(--slate-100);
-    transition: background var(--transition);
-    cursor: pointer;
-  }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--emerald-faint); }
-  tbody tr.selected { background: var(--emerald-faint); }
-  tbody td { padding: 11px 16px; font-size: 13px; color: var(--slate-600); }
-  .emp-cell { display: flex; align-items: center; gap: 10px; }
-  .emp-avatar {
-    width: 32px; height: 32px; border-radius: 9px;
-    background: linear-gradient(135deg, var(--emerald-light), var(--emerald));
-    display: grid; place-items: center;
-    font-size: 11px; font-weight: 700; color: white;
-    flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.1);
-  }
-  .emp-name { font-weight: 600; color: var(--slate-800); font-size: 13px; }
-  .status-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 11px; font-weight: 600; padding: 3px 10px;
-    border-radius: 20px;
-  }
-  .status-badge::before {
-    content: ''; width: 5px; height: 5px; border-radius: 50%;
-  }
-  .status-badge.active { background: var(--emerald-soft); color: var(--emerald); }
-  .status-badge.active::before { background: var(--emerald-light); }
-  .status-badge.inactive { background: #fee2e2; color: #dc2626; }
-  .status-badge.inactive::before { background: #ef4444; }
-  .status-badge.pending { background: #fef3c7; color: #d97706; }
-  .status-badge.pending::before { background: var(--amber); }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0 12px;
+    }
 
-  .pagination {
-    display: flex; align-items: center; gap: 4px;
-    padding: 12px 16px; justify-content: space-between;
-    border-top: 1px solid var(--slate-100);
-  }
-  .page-info { font-size: 12px; color: var(--slate-400); font-weight: 500; }
-  .page-btns { display: flex; gap: 4px; }
-  .page-btn {
-    width: 30px; height: 30px; border: 1.5px solid var(--slate-200);
-    border-radius: 8px; background: var(--white); cursor: pointer;
-    font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--slate-500);
-    display: grid; place-items: center;
-    transition: background var(--transition), border-color var(--transition), color var(--transition);
-  }
-  .page-btn:hover { background: var(--slate-50); border-color: var(--slate-300); }
-  .page-btn.active {
-    background: var(--emerald); color: white;
-    border-color: var(--emerald);
-    box-shadow: 0 2px 8px rgba(5,150,105,.25);
-  }
+    .nav-item {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      border-radius: 12px;
+      color: var(--slate-600);
+      cursor: pointer;
+      transition: var(--transition);
+      gap: 16px;
+      text-decoration: none;
+      overflow: hidden;
+      justify-content: flex-start;
+    }
 
-  /* ── DETAIL PANEL ── */
-  .detail-panel {
-    width: 340px; flex-shrink: 0;
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-xs);
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
+    .nav-item:hover {
+      background: var(--slate-100);
+      color: var(--slate-900);
+    }
 
-  .two-col { display: flex; gap: 18px; flex: 1; }
-  .two-col .panel { flex: 1; }
+    .nav-item.active {
+      background: var(--tertiary);
+      color: var(--on-primary);
+      box-shadow: 0 4px 12px rgba(88, 91, 230, 0.25);
+    }
 
-  .detail-emp-header {
-    padding: 16px;
-    border-bottom: 1px solid var(--slate-100);
-    background: linear-gradient(135deg, var(--emerald-faint), var(--white));
-    display: flex; align-items: flex-start; gap: 12px;
-  }
-  .detail-avatar {
-    width: 50px; height: 50px; border-radius: 12px;
-    background: linear-gradient(135deg, var(--emerald-light), var(--emerald));
-    display: grid; place-items: center;
-    font-size: 18px; font-weight: 700; color: white;
-    flex-shrink: 0; position: relative;
-    box-shadow: 0 4px 12px rgba(5,150,105,.3);
-  }
-  .detail-avatar .camera-icon {
-    position: absolute; bottom: -5px; right: -5px;
-    width: 18px; height: 18px; border-radius: 50%;
-    background: var(--white); color: var(--slate-500);
-    display: grid; place-items: center; border: 2px solid var(--slate-200);
-    box-shadow: var(--shadow-xs);
-  }
-  .detail-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 700; color: var(--slate-900); letter-spacing: -.3px; }
-  .detail-sub { font-size: 12px; color: var(--slate-500); margin-top: 2px; font-weight: 500; }
-  .detail-tags { display: flex; gap: 5px; margin-top: 7px; flex-wrap: wrap; }
-  .detail-tag {
-    font-size: 10.5px; color: var(--slate-500); font-weight: 600;
-    background: var(--slate-100); border-radius: 6px; padding: 2px 8px;
-  }
-  .detail-contact { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
-  .contact-item {
-    display: flex; align-items: center; gap: 5px;
-    font-size: 11.5px; color: var(--slate-500); font-weight: 500;
-  }
+    .nav-item .material-symbols-outlined {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
 
-  .detail-tabs {
-    display: flex; border-bottom: 1px solid var(--slate-100);
-    padding: 0 12px;
-    overflow-x: auto;
-  }
-  .detail-tabs::-webkit-scrollbar { height: 0; }
-  .detail-tab {
-    padding: 10px 8px; font-size: 12px; font-weight: 600; color: var(--slate-400);
-    cursor: pointer; position: relative;
-    border-bottom: 2px solid transparent;
-    transition: color var(--transition);
-    white-space: nowrap;
-  }
-  .detail-tab:hover { color: var(--emerald); }
-  .detail-tab.active { color: var(--emerald); border-bottom-color: var(--emerald); }
+    .nav-item .label {
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 1;
+      transition: opacity var(--transition);
+    }
 
-  .detail-body { padding: 14px; flex: 1; overflow-y: auto; }
-  .detail-body::-webkit-scrollbar { width: 4px; }
-  .detail-body::-webkit-scrollbar-thumb { background: var(--slate-100); border-radius: 4px; }
+    body.sidebar-collapsed .nav-item .label {
+      display: none;
+    }
 
-  .detail-section { margin-bottom: 16px; }
-  .detail-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--slate-400); margin-bottom: 10px; }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .detail-field label { font-size: 10.5px; color: var(--slate-400); margin-bottom: 3px; display: block; font-weight: 600; letter-spacing: .3px; }
-  .detail-field p { font-size: 13px; color: var(--slate-700); font-weight: 600; }
+    body.sidebar-collapsed .nav-item {
+      justify-content: center;
+      gap: 0;
+      padding: 0;
+    }
 
-  /* ── FOOTER ── */
-  .footer {
-    height: 34px;
-    background: var(--white);
-    border-top: 1px solid var(--slate-200);
-    display: flex; align-items: center;
-    padding: 0 22px; gap: 14px;
-    flex-shrink: 0;
-  }
-  .footer-left { display: flex; align-items: center; gap: 12px; }
-  .footer-brand { font-size: 11.5px; color: var(--slate-400); font-weight: 500; }
-  .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--slate-300); }
-  .env-badge { display: flex; align-items: center; gap: 5px; font-size: 11.5px; }
-  .env-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--emerald-light); box-shadow: 0 0 0 3px var(--emerald-soft); }
-  .env-label { color: var(--emerald); font-weight: 600; }
-  .footer-version { font-size: 11.5px; color: var(--slate-400); font-weight: 500; }
-  .footer-links { margin-left: auto; display: flex; gap: 14px; }
-  .footer-links a { font-size: 11.5px; color: var(--slate-400); text-decoration: none; font-weight: 500; transition: color var(--transition); }
-  .footer-links a:hover { color: var(--emerald); }
+    /* Icons are always centered at 32px (12px list padding + 20px half-item-width) or flex-center */
 
-  /* ── DROPDOWN ── */
-  .dropdown { position: relative; display: inline-block; }
-  .dropdown-menu {
-    position: absolute; top: calc(100% + 8px); right: 0;
-    background: var(--white); border: 1px solid var(--slate-200);
-    border-radius: 12px; box-shadow: var(--shadow-lg);
-    min-width: 210px; padding: 6px;
-    z-index: 999; display: none;
-    animation: dropIn .15s cubic-bezier(.4,0,.2,1);
-  }
-  @keyframes dropIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
-  .dropdown-menu.show { display: block; }
-  .dd-user-info { padding: 10px 10px 10px; border-bottom: 1px solid var(--slate-100); margin-bottom: 4px; }
-  .dd-user-name { font-size: 13.5px; font-weight: 700; color: var(--slate-900); }
-  .dd-user-email { font-size: 11.5px; color: var(--slate-400); margin-top: 2px; }
-  .dd-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 10px; border-radius: 8px;
-    font-size: 13px; font-weight: 500; color: var(--slate-600); cursor: pointer;
-    transition: background var(--transition), color var(--transition);
-  }
-  .dd-item:hover { background: var(--emerald-faint); color: var(--emerald); }
-  .dd-shortcut { margin-left: auto; font-size: 10.5px; color: var(--slate-300); font-family: 'Plus Jakarta Sans', sans-serif; }
-  .dd-divider { margin: 4px 0; border: none; border-top: 1px solid var(--slate-100); }
-  .dd-item.danger { color: #dc2626; }
-  .dd-item.danger:hover { background: #fef2f2; color: #dc2626; }
+    .sidebar-footer {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0 8px 12px;
+    }
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--slate-200); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--slate-300); }
+    /* ── DRILL SIDEBAR ── */
+    .drill-sidebar {
+      position: fixed;
+      left: var(--sidebar-w);
+      top: var(--topbar-h);
+      bottom: 0;
+      width: var(--drill-w);
+      background: var(--slate-50);
+      border-right: 1px solid var(--outline);
+      display: flex;
+      flex-direction: column;
+      z-index: 40;
+      padding: 12px;
+      transition: left var(--transition), width var(--transition), opacity var(--transition);
+      overflow: hidden;
+    }
 
-  /* ── ACTIVITY TABLE ── */
-  .activity-table table thead th { background: var(--white); }
-</style>
+    /* Drill sidebar is now persistent */
+
+    .drill-header {
+      padding: 12px 8px;
+      margin-bottom: 8px;
+    }
+
+    .drill-header h2 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+
+    .drill-header p {
+      font-size: 11px;
+      color: var(--slate-500);
+      font-weight: 500;
+    }
+
+    .drill-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--slate-600);
+      transition: var(--transition);
+    }
+
+    .drill-item:hover {
+      background: var(--slate-200);
+      color: var(--slate-900);
+    }
+
+    .drill-item.active {
+      background: rgba(0, 64, 224, 0.08);
+      color: var(--primary);
+      font-weight: 600;
+      border-right: 3px solid var(--primary);
+      border-radius: 8px 0 0 8px;
+    }
+
+    .drill-item .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 16px 12px 8px;
+    }
+
+    /* ── WORKSPACE ── */
+    .app-content {
+      margin-left: calc(var(--sidebar-w) + var(--drill-w));
+      margin-top: var(--topbar-h);
+      height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: margin var(--transition);
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto auto;
+      gap: 24px;
+    }
+
+    /* ── PANELS ── */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--outline);
+    }
+
+    .panel-header h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--slate-900);
+    }
+
+    /* ── TABLES ── */
+    .zebra-table tr:nth-child(even) {
+      background: var(--slate-50);
+    }
+
+    .zebra-table th {
+      background: var(--slate-50);
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--outline);
+      text-align: left;
+    }
+
+    .zebra-table td {
+      padding: 14px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--outline);
+      line-height: 1.4;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: calc(var(--sidebar-w) + var(--drill-w));
+      height: 32px;
+      background: var(--surface);
+      border-top: 1px solid var(--outline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--slate-400);
+      z-index: 50;
+      transition: left var(--transition);
+    }
+
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #059669;
+      font-weight: 700;
+    }
+
+    .footer-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: .5;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--slate-200);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--slate-300);
+    }
+
+    /* ── ACTIVITY TABLE ── */
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .activity-table table thead th {
+      background: var(--white);
+    }
+  </style>
 </head>
-<body>
 
-<!-- ══ TOPBAR ══ -->
-<header class="topbar">
-  <a href="#" class="topbar-logo">
-    <div class="logo-mark">
-      <svg fill="none" viewBox="0 0 18 18" stroke="white" stroke-width="2">
-        <path d="M9 2L2 6v6l7 4 7-4V6z"/>
-        <path d="M9 2v12M2 6l7 4 7-4"/>
-      </svg>
-    </div>
-    <span class="logo-text">Acme<span>ERP</span></span>
-  </a>
+<body class="sidebar-collapsed">
 
-  <button class="topbar-hamburger" onclick="toggleSidebar()">
-    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path d="M3 6h18M3 12h18M3 18h18"/>
-    </svg>
-  </button>
-
-  <div class="topbar-search">
-    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
-    </svg>
-    <input type="text" placeholder="Search employees, modules, reports…">
-    <span class="search-kbd">⌘ K</span>
-  </div>
-
-  <div class="topbar-actions">
-    <button class="btn-new" onclick="alert('New record')">
-      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-      New
-    </button>
-
-    <button class="icon-btn">
-      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path d="M15 17H20L18.59 15.59C18.21 15.21 18 14.7 18 14.17V11C18 8.38 16.14 6.17 13.67 5.33C13.44 4.56 12.73 4 12 4C11.27 4 10.56 4.56 10.33 5.33C7.86 6.17 6 8.38 6 11V14.17C6 14.7 5.79 15.21 5.41 15.59L4 17H9M12 21C12.53 21 13.04 20.79 13.41 20.41C13.79 20.04 14 19.53 14 19H10C10 19.53 10.21 20.04 10.59 20.41C10.96 20.79 11.47 21 12 21Z"/>
-      </svg>
-      <span class="badge">8</span>
-    </button>
-
-    <button class="icon-btn" title="Settings">
-      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-      </svg>
-    </button>
-
-    <button class="lang-btn">
-      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M3 12h18"/>
-      </svg>
-      EN
-      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-    </button>
-
-    <div class="dropdown">
-      <button class="user-pill" onclick="toggleDropdown(this)">
-        <div class="avatar">JD</div>
-        <div>
-          <div class="user-name">John Doe</div>
-          <div class="user-role">System Admin</div>
-        </div>
-        <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="margin-left:4px;color:var(--slate-400)"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-      <div class="dropdown-menu">
-        <div class="dd-user-info">
-          <div class="dd-user-name">John Doe</div>
-          <div class="dd-user-email">john.doe@acme.com</div>
-        </div>
-        <div class="dd-item">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
-          View Profile <span class="dd-shortcut">⌘P</span>
-        </div>
-        <div class="dd-item">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>
-          Account Settings <span class="dd-shortcut">⌘S</span>
-        </div>
-        <div class="dd-item">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 17h7M17 14v7"/></svg>
-          Keyboard Shortcuts <span class="dd-shortcut">?</span>
-        </div>
-        <hr class="dd-divider">
-        <div class="dd-item">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.08-5.96"/></svg>
-          Updates <span class="dd-shortcut">⌘A</span>
-        </div>
-        <hr class="dd-divider">
-        <div class="dd-item danger">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          Log Out <span class="dd-shortcut">⇧⌘Q</span>
-        </div>
+  <!-- ══ MAIN SIDEBAR ══ -->
+  <aside class="sidebar">
+    <nav class="nav-list">
+      <div class="nav-item active" onclick="setActive(this, 'dashboard')" title="Dashboard">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="label">Dashboard</span>
       </div>
-    </div>
-  </div>
-</header>
-
-<!-- ══ BODY ══ -->
-<div class="app-body">
-
-  <!-- PRIMARY SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Main Menu</div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        </div>
-        Dashboard
+      <div class="nav-item" onclick="setActive(this, 'hrms')" title="HRMS">
+        <span class="material-symbols-outlined">groups</span>
+        <span class="label">HRMS</span>
       </div>
-      <div class="nav-item active" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
-        </div>
-        HRMS
+      <div class="nav-item" onclick="setActive(this, 'finance')" title="Finance">
+        <span class="material-symbols-outlined">payments</span>
+        <span class="label">Finance</span>
       </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-        </div>
-        Finance
+      <div class="nav-item" onclick="setActive(this, 'assets')" title="Assets">
+        <span class="material-symbols-outlined">account_balance</span>
+        <span class="label">Assets</span>
       </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 8h14M5 12h14M5 16h6"/><rect x="3" y="4" width="18" height="16" rx="2"/></svg>
-        </div>
-        Assets
-        <span class="nav-badge">12</span>
+      <div class="nav-item" onclick="setActive(this, 'inventory')" title="Inventory">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span class="label">Inventory</span>
       </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 3h6l2 4-3 2a11 11 0 0 0 5 5l2-3 4 2v6a2 2 0 0 1-2 2A18 18 0 0 1 1 5a2 2 0 0 1 2-2z"/></svg>
-        </div>
-        Projects
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        </div>
-        Sales
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        </div>
-        Procurement
-      </div>
-    </div>
-
-    <hr class="sidebar-divider">
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Reporting</div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        </div>
-        Reports
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        </div>
-        Admin
-      </div>
-    </div>
-
-    <hr class="sidebar-divider">
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Favourites</div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg>
-        </div>
-        My Dashboard
-      </div>
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-        </div>
-        Employee Search
-      </div>
-    </div>
+    </nav>
 
     <div class="sidebar-footer">
-      <div class="nav-item" onclick="setActive(this)">
-        <div class="nav-icon-wrap">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 18.68a1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>
-        </div>
-        Settings
+      <div class="nav-item" title="Settings">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="label">Settings</span>
       </div>
-      <button class="collapse-btn" onclick="toggleSidebar()">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="m11 17-5-5 5-5M18 12H6"/></svg>
-        Collapse
-      </button>
-    </div>
-  </nav>
-
-  <!-- SECONDARY PANEL -->
-  <div class="sub-panel">
-    <div class="sub-header">
-      <div class="sub-header-top">
-        <h2>HRMS</h2>
-        <span class="sub-header-badge">245</span>
-      </div>
-      <div class="sub-tabs">
-        <div class="sub-tab active" onclick="setSubTab(this)">Employees</div>
-        <div class="sub-tab" onclick="setSubTab(this)">Organization</div>
+      <div class="nav-item" title="Help & Support">
+        <span class="material-symbols-outlined">help</span>
+        <span class="label">Help & Support</span>
       </div>
     </div>
-    <div class="sub-menu">
-      <div class="sub-item active" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
-        Employees
-        <span class="count">245</span>
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Onboarding
-        <span class="count">7</span>
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-        Attendance
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Leaves
-        <span class="count">3</span>
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Payroll
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Performance
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        Training
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        Recruitment
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Documents
-      </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Exit Management
-      </div>
+  </aside>
 
-      <hr class="sub-section-divider">
-      <div class="sub-menu-label">HR Settings</div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg>
-        HR Settings
+  <!-- ══ DRILL SIDEBAR ══ -->
+  <aside class="drill-sidebar">
+    <div class="drill-header">
+      <h2>Module Explorer</h2>
+      <p>Contextual Menu</p>
+    </div>
+
+    <nav id="drill-nav-content">
+      <div class="drill-item active" data-label="Dashboard" onclick="setActive(this)">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
       </div>
-      <div class="sub-item" onclick="setSubActive(this)">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="drill-item" data-label="Reports" onclick="setActive(this)">
+        <span class="material-symbols-outlined">bar_chart</span>
         Reports
       </div>
-    </div>
-  </div>
-
-  <!-- WORKSPACE -->
-  <div class="workspace">
-    <div class="breadcrumb">
-      <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      <a href="#">HRMS</a>
-      <span class="sep">›</span>
-      <a href="#">Employees</a>
-      <span class="sep">›</span>
-      <span class="current">Employee Directory</span>
-    </div>
-
-    <div class="workspace-inner">
-
-      <!-- STATS ROW -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-label">Total Employees</div>
-          <div class="stat-value">245</div>
-          <div class="stat-sub">
-            <span class="stat-delta up">↑ 12%</span>
-            <span class="stat-period">vs last month</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Today</div>
-          <div class="stat-value">198</div>
-          <div class="stat-sub">
-            <span class="stat-delta up">↑ 3%</span>
-            <span class="stat-period">vs yesterday</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">On Leave</div>
-          <div class="stat-value">14</div>
-          <div class="stat-sub">
-            <span class="stat-delta down">↑ 2</span>
-            <span class="stat-period">this week</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">New Hires (MTD)</div>
-          <div class="stat-value">7</div>
-          <div class="stat-sub">
-            <span class="stat-delta up">↑ 40%</span>
-            <span class="stat-period">vs last month</span>
-          </div>
-        </div>
+      <div class="drill-item" data-label="Transactions" onclick="setActive(this)">
+        <span class="material-symbols-outlined">receipt_long</span>
+        Transactions
       </div>
+      <div class="drill-item" data-label="Configuration" onclick="setActive(this)">
+        <span class="material-symbols-outlined">settings</span>
+        Configuration
+      </div>
+      <div class="drill-item" data-label="Audits" onclick="setActive(this)">
+        <span class="material-symbols-outlined">verified_user</span>
+        Audits
+      </div>
+    </nav>
 
-      <!-- TWO COLUMN: TABLE + DETAIL -->
-      <div class="two-col" style="flex:1;min-height:0;">
+    <div class="nav-group-label">Recent Views</div>
+    <div style="padding: 0 12px;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; cursor:pointer;">
+        <div style="width:6px; height:6px; border-radius:50%; background:#10b981;"></div>
+        <span style="font-size:12px; color:var(--slate-600);">FY24 Q3 Audit.xlsx</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <div style="width:6px; height:6px; border-radius:50%; background:#f59e0b;"></div>
+        <span style="font-size:12px; color:var(--slate-600);">Pending Ledger Approvals</span>
+      </div>
+    </div>
+  </aside>
 
-        <!-- EMPLOYEE LIST TABLE -->
-        <div class="panel" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
-          <div class="panel-header">
-            <h3>Employees List</h3>
-            <span class="panel-badge">Showing 1–8 of 245</span>
-            <div class="panel-actions">
-              <button class="panel-btn" title="Refresh">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.08-5.96"/></svg>
-              </button>
-              <button class="panel-btn" title="Filter">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-              </button>
-              <button class="panel-btn" title="More">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-              </button>
+  <!-- ══ TOPBAR ══ -->
+  <header class="topbar">
+    <div class="topbar-toggle-area">
+      <button class="icon-btn" onclick="toggleSidebar()" style="color: var(--slate-900);">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+    <div class="topbar-logo">
+      <div class="sidebar-logo-icon" style="width: 32px; height: 32px; border-radius: 8px;">
+        <span class="material-symbols-outlined"
+          style="font-size: 18px; font-variation-settings: 'FILL' 1;">terminal</span>
+      </div>
+      <span>Enterprise ERP</span>
+    </div>
+    <div class="topbar-search">
+      <span class="material-symbols-outlined">search</span>
+      <input type="text" placeholder="Search modules, transactions, or employees...">
+    </div>
+
+    <div class="topbar-actions">
+      <button class="icon-btn">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="badge"></span>
+      </button>
+      <button class="icon-btn">
+        <span class="material-symbols-outlined">dark_mode</span>
+      </button>
+      <button class="icon-btn">
+        <span class="material-symbols-outlined">translate</span>
+      </button>
+
+      <div class="topbar-divider"></div>
+
+      <div class="user-pill">
+        <div class="user-info">
+          <div class="user-name">Alex Sterling</div>
+          <div class="user-role">Global Administrator</div>
+        </div>
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUHm3bZ7Uhm59cf1cbwO0GAWygFkIHl5qWmYjip63wRJ_B8HBEWdNLiHjPVpDbRwbph66gAK14FajQzoUmca6HUmC1J_EjTDZZi65YZxJKSFddvI3O1ebA-nZlU2siYw0Ej16nZRPm3qIyCO7589z6PiBQUoDVmeUDLOsXkain8WOzvhcrbk-ZLyLCa4WzNoQlL3kTJRIZSjerfSvJFEE8fwf4MbFrR_SkoeCf5eGE-rCVkQDWJtiiPk6HlwjEMC-Wg-LXRyLIoEwR"
+          alt="Profile" class="user-avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ WORKSPACE ══ -->
+  <main class="app-content">
+    <div class="grid-layout">
+      <!-- Financial Summary -->
+      <section class="panel" style="grid-column: span 8; grid-row: span 1;">
+        <header class="panel-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div
+              style="width:16px; height:16px; background: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 4px 4px; cursor: move;">
+            </div>
+            <h3>Financial Summary</h3>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <select
+              style="font-size:11px; padding:2px 8px; border:1px solid var(--outline); border-radius:4px; background:var(--slate-50);">
+              <option>Last 30 Days</option>
+              <option>Last 90 Days</option>
+            </select>
+            <span class="material-symbols-outlined" style="cursor:pointer; color:var(--slate-400);">more_vert</span>
+          </div>
+        </header>
+        <div style="padding: 24px;">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:24px;">
+            <div style="font-size:28px; font-weight:900; color:var(--slate-900); letter-spacing:-1px;">$2,840,120.00
+            </div>
+            <div style="color:#059669; font-size:13px; font-weight:700; display:flex; align-items:center; gap:4px;">
+              <span class="material-symbols-outlined" style="font-size:14px;">trending_up</span>
+              +12.4%
             </div>
           </div>
 
-          <div class="table-toolbar">
-            <div class="table-search">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-              <input type="text" placeholder="Search employee…">
+          <div
+            style="height:180px; background:var(--slate-50); border:1px dashed var(--outline); border-radius:8px; display:flex; align-items:flex-end; padding:0 12px; gap:4px; overflow:hidden; position:relative;">
+            <div style="flex:1; background:#dde1ff; height:30%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#b8c3ff; height:45%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#2e5bff; height:35%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#124af0; height:60%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:var(--primary); height:80%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#0035be; height:55%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#001356; height:90%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#2e5bff; height:65%; border-radius:4px 4px 0 0;"></div>
+            <div style="flex:1; background:#b8c3ff; height:40%; border-radius:4px 4px 0 0;"></div>
+          </div>
+
+          <div style="margin-top:20px; display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;">
+            <div
+              style="padding:12px; background:var(--slate-50); border-radius:8px; border:1px solid var(--slate-100);">
+              <div
+                style="font-size:9px; font-weight:800; color:var(--slate-500); text-transform:uppercase; margin-bottom:4px;">
+                Revenue</div>
+              <div style="font-size:14px; font-weight:800; color:var(--slate-900);">$4.2M</div>
             </div>
-            <button class="filter-btn">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            <div
+              style="padding:12px; background:var(--slate-50); border-radius:8px; border:1px solid var(--slate-100);">
+              <div
+                style="font-size:9px; font-weight:800; color:var(--slate-500); text-transform:uppercase; margin-bottom:4px;">
+                EBITDA</div>
+              <div style="font-size:14px; font-weight:800; color:var(--slate-900);">18.2%</div>
+            </div>
+            <div
+              style="padding:12px; background:var(--slate-50); border-radius:8px; border:1px solid var(--slate-100);">
+              <div
+                style="font-size:9px; font-weight:800; color:var(--slate-500); text-transform:uppercase; margin-bottom:4px;">
+                Burn Rate</div>
+              <div style="font-size:14px; font-weight:800; color:var(--slate-900);">$240K</div>
+            </div>
+            <div
+              style="padding:12px; background:var(--slate-50); border-radius:8px; border:1px solid var(--slate-100);">
+              <div
+                style="font-size:9px; font-weight:800; color:var(--slate-500); text-transform:uppercase; margin-bottom:4px;">
+                Cash On Hand</div>
+              <div style="font-size:14px; font-weight:800; color:var(--slate-900);">$1.8M</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pending Approvals -->
+      <section class="panel" style="grid-column: span 4; grid-row: span 1;">
+        <header class="panel-header">
+          <h3>Pending Approvals</h3>
+          <span
+            style="background:#fef3c7; color:#d97706; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px;">12
+            Actions</span>
+        </header>
+        <div style="overflow-y: auto;">
+          <div
+            style="padding:16px; border-bottom:1px solid var(--outline); display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <div style="display:flex; gap:12px;">
+                <div
+                  style="width:32px; height:32px; background:#eff6ff; color:#3b82f6; border-radius:6px; display:grid; place-items:center;">
+                  <span class="material-symbols-outlined">receipt</span>
+                </div>
+                <div>
+                  <div style="font-size:12px; font-weight:700; color:var(--slate-900);">Invoice #INV-2024-001</div>
+                  <div style="font-size:11px; color:var(--slate-500);">TechSolutions Inc • $12,450.00</div>
+                </div>
+              </div>
+              <span style="font-size:10px; color:var(--slate-400);">2h ago</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button
+                style="flex:1; padding:6px; background:var(--tertiary); color:white; border:none; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">Approve</button>
+              <button
+                style="flex:1; padding:6px; border:1px solid var(--outline); background:white; color:var(--slate-600); border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">Deny</button>
+            </div>
+          </div>
+          <div
+            style="padding:16px; border-bottom:1px solid var(--outline); display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <div style="display:flex; gap:12px;">
+                <div
+                  style="width:32px; height:32px; background:#ecfdf5; color:#10b981; border-radius:6px; display:grid; place-items:center;">
+                  <span class="material-symbols-outlined">person_add</span>
+                </div>
+                <div>
+                  <div style="font-size:12px; font-weight:700; color:var(--slate-900);">New Hire Onboarding</div>
+                  <div style="font-size:11px; color:var(--slate-500);">Sarah Chen • Lead Designer</div>
+                </div>
+              </div>
+              <span style="font-size:10px; color:var(--slate-400);">5h ago</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button
+                style="flex:1; padding:6px; background:var(--tertiary); color:white; border:none; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">Review
+                Docs</button>
+              <button
+                style="flex:1; padding:6px; border:1px solid var(--outline); background:white; color:var(--slate-600); border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">Archive</button>
+            </div>
+          </div>
+        </div>
+        <button
+          style="width:100%; padding:10px; border:none; background:none; border-top:1px solid var(--outline); color:var(--primary); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1px; cursor:pointer;">View
+          All Tasks</button>
+      </section>
+
+      <!-- Recent Transactions -->
+      <section class="panel" style="grid-column: span 12;">
+        <header class="panel-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div
+              style="width:16px; height:16px; background: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 4px 4px; cursor: move;">
+            </div>
+            <h3>Recent Transactions</h3>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button
+              style="display:flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--outline); border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+              <span class="material-symbols-outlined" style="font-size:16px;">filter_list</span>
               Filter
             </button>
-            <button class="add-btn" onclick="alert('Add Employee')">
-              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-              Add Employee
+            <button
+              style="display:flex; align-items:center; gap:6px; padding:6px 12px; background:var(--slate-900); color:white; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">
+              <span class="material-symbols-outlined" style="font-size:16px;">download</span>
+              Export
             </button>
           </div>
-
-          <div style="overflow:auto;flex:1;">
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:40px"><input type="checkbox" style="accent-color:var(--emerald)"></th>
-                  <th>Employee</th>
-                  <th>ID</th>
-                  <th>Department</th>
-                  <th>Status</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="selected" onclick="selectRow(this)">
-                  <td><input type="checkbox" checked style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar">JD</div><div><div class="emp-name">John Doe</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1001</td>
-                  <td>IT</td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">JS</div><div><div class="emp-name">Jane Smith</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1002</td>
-                  <td>HR</td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#fb923c,#ea580c)">RB</div><div><div class="emp-name">Robert Brown</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1003</td>
-                  <td>Finance</td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#60a5fa,#2563eb)">ED</div><div><div class="emp-name">Emily Davis</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1004</td>
-                  <td>IT</td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#f472b6,#db2777)">MW</div><div><div class="emp-name">Michael Wilson</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1005</td>
-                  <td>Operations</td>
-                  <td><span class="status-badge inactive">Inactive</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#34d399,#059669)">SJ</div><div><div class="emp-name">Sarah Johnson</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1006</td>
-                  <td>HR</td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#facc15,#ca8a04)">DL</div><div><div class="emp-name">David Lee</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1007</td>
-                  <td>Finance</td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-                <tr onclick="selectRow(this)">
-                  <td><input type="checkbox" style="accent-color:var(--emerald)"></td>
-                  <td><div class="emp-cell"><div class="emp-avatar" style="background:linear-gradient(135deg,#94a3b8,#475569)">LW</div><div><div class="emp-name">Lisa White</div></div></div></td>
-                  <td style="color:var(--slate-400);font-size:12px;font-weight:500">EMP1008</td>
-                  <td>IT</td>
-                  <td><span class="status-badge pending">On Leave</span></td>
-                  <td><button class="panel-btn"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="pagination">
-            <span class="page-info">Showing 1 to 8 of 245</span>
-            <div class="page-btns">
-              <button class="page-btn">‹</button>
-              <button class="page-btn active">1</button>
-              <button class="page-btn" onclick="setPage(this)">2</button>
-              <button class="page-btn" onclick="setPage(this)">3</button>
-              <button class="page-btn">…</button>
-              <button class="page-btn" onclick="setPage(this)">31</button>
-              <button class="page-btn">›</button>
-            </div>
-          </div>
+        </header>
+        <div style="overflow-x: auto;">
+          <table class="zebra-table" style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="width:40px;"><input type="checkbox"></th>
+                <th>Reference</th>
+                <th>Date</th>
+                <th>Entity</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th style="text-align:center;">Status</th>
+                <th style="width:40px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td style="font-weight:700; color:var(--primary);">TRX-99201-B</td>
+                <td>Oct 24, 2023</td>
+                <td>Amazon Web Services</td>
+                <td style="color:var(--slate-500);">Infrastructure</td>
+                <td style="font-weight:800; color:var(--slate-900);">$1,452.12</td>
+                <td style="text-align:center;"><span
+                    style="background:#dcfce7; color:#15803d; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px;">Completed</span>
+                </td>
+                <td><span class="material-symbols-outlined"
+                    style="color:var(--slate-400); cursor:pointer;">more_horiz</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td style="font-weight:700; color:var(--primary);">TRX-99202-B</td>
+                <td>Oct 23, 2023</td>
+                <td>Global Logistics Corp</td>
+                <td style="color:var(--slate-500);">Shipping</td>
+                <td style="font-weight:800; color:var(--slate-900);">$890.00</td>
+                <td style="text-align:center;"><span
+                    style="background:#fef3c7; color:#d97706; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px;">Processing</span>
+                </td>
+                <td><span class="material-symbols-outlined"
+                    style="color:var(--slate-400); cursor:pointer;">more_horiz</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td style="font-weight:700; color:var(--primary);">TRX-99203-B</td>
+                <td>Oct 23, 2023</td>
+                <td>Starbucks HQ</td>
+                <td style="color:var(--slate-500);">Entertainment</td>
+                <td style="font-weight:800; color:var(--slate-900);">$42.50</td>
+                <td style="text-align:center;"><span
+                    style="background:#dcfce7; color:#15803d; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px;">Completed</span>
+                </td>
+                <td><span class="material-symbols-outlined"
+                    style="color:var(--slate-400); cursor:pointer;">more_horiz</span></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td style="font-weight:700; color:var(--primary);">TRX-99204-B</td>
+                <td>Oct 22, 2023</td>
+                <td>Verizon Business</td>
+                <td style="color:var(--slate-500);">Utilities</td>
+                <td style="font-weight:800; color:var(--slate-900);">$4,120.00</td>
+                <td style="text-align:center;"><span
+                    style="background:#f1f5f9; color:#64748b; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px;">Pending</span>
+                </td>
+                <td><span class="material-symbols-outlined"
+                    style="color:var(--slate-400); cursor:pointer;">more_horiz</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <!-- DETAIL PANEL -->
-        <div class="detail-panel">
-          <div class="panel-header" style="border-bottom:none;padding-bottom:6px;">
-            <h3 style="font-size:12.5px">John Doe — EMP1001</h3>
-            <div class="panel-actions">
-              <button class="panel-btn"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.08-5.96"/></svg></button>
-              <button class="panel-btn"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-              <button class="panel-btn"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-            </div>
-          </div>
-
-          <div class="detail-emp-header">
-            <div class="detail-avatar">
-              JD
-              <span class="camera-icon">
-                <svg width="8" height="8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              </span>
-            </div>
-            <div>
-              <div class="detail-name">John Doe</div>
-              <div class="detail-sub">Software Engineer</div>
-              <div class="detail-tags">
-                <span class="detail-tag">EMP1001</span>
-                <span class="detail-tag">IT Department</span>
-                <span class="status-badge active" style="font-size:10px;padding:1px 7px">Active</span>
-              </div>
-              <div class="detail-contact">
-                <span class="contact-item">
-                  <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  john.doe@acme.com
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="detail-tabs">
-            <div class="detail-tab active" onclick="setDetailTab(this)">Overview</div>
-            <div class="detail-tab" onclick="setDetailTab(this)">Profile</div>
-            <div class="detail-tab" onclick="setDetailTab(this)">Job</div>
-            <div class="detail-tab" onclick="setDetailTab(this)">Compensation</div>
-            <div class="detail-tab" onclick="setDetailTab(this)">Docs</div>
-          </div>
-
-          <div class="detail-body">
-            <div class="detail-section">
-              <div class="detail-section-title">Work Information</div>
-              <div class="detail-grid">
-                <div class="detail-field">
-                  <label>Date of Joining</label>
-                  <p>15 Jan 2022</p>
-                </div>
-                <div class="detail-field">
-                  <label>Date of Birth</label>
-                  <p>12 Mar 1990</p>
-                </div>
-                <div class="detail-field">
-                  <label>Reporting Manager</label>
-                  <p>Robert Brown</p>
-                </div>
-                <div class="detail-field">
-                  <label>Work Location</label>
-                  <p>New York Office</p>
-                </div>
-                <div class="detail-field">
-                  <label>Employment Type</label>
-                  <p>Full Time</p>
-                </div>
-                <div class="detail-field">
-                  <label>Status</label>
-                  <p><span class="status-badge active" style="font-size:11px">Active</span></p>
-                </div>
-              </div>
-            </div>
-
-            <div class="detail-section">
-              <div class="detail-section-title">Attendance This Week</div>
-              <div style="display:flex;gap:5px;align-items:flex-end;height:40px;margin-bottom:6px;">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-                  <div style="width:100%;background:var(--emerald-light);border-radius:4px 4px 0 0;height:30px;opacity:.85"></div>
-                  <div style="font-size:9px;color:var(--slate-400);font-weight:600">Mon</div>
-                </div>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-                  <div style="width:100%;background:var(--emerald-light);border-radius:4px 4px 0 0;height:28px;opacity:.8"></div>
-                  <div style="font-size:9px;color:var(--slate-400);font-weight:600">Tue</div>
-                </div>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-                  <div style="width:100%;background:var(--emerald);border-radius:4px 4px 0 0;height:34px"></div>
-                  <div style="font-size:9px;color:var(--slate-400);font-weight:600">Wed</div>
-                </div>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-                  <div style="width:100%;background:var(--emerald-light);border-radius:4px 4px 0 0;height:26px;opacity:.8"></div>
-                  <div style="font-size:9px;color:var(--slate-400);font-weight:600">Thu</div>
-                </div>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-                  <div style="width:100%;background:var(--slate-200);border-radius:4px 4px 0 0;height:8px"></div>
-                  <div style="font-size:9px;color:var(--slate-400);font-weight:600">Fri</div>
-                </div>
-              </div>
-              <div style="font-size:11px;color:var(--slate-400);font-weight:500">4/5 days present · 8.2h avg</div>
-            </div>
-
-            <div class="detail-section">
-              <div class="detail-section-title">Recent Activity</div>
-              <div style="display:flex;flex-direction:column;gap:9px;">
-                <div style="display:flex;gap:10px;align-items:flex-start;">
-                  <div style="width:7px;height:7px;border-radius:50%;background:var(--emerald);margin-top:4px;flex-shrink:0;box-shadow:0 0 0 3px var(--emerald-soft)"></div>
-                  <div>
-                    <div style="font-size:12.5px;color:var(--slate-700);font-weight:500">Updated employee profile</div>
-                    <div style="font-size:11px;color:var(--slate-400);font-weight:500">26 Apr 2026 · 11:20 AM</div>
-                  </div>
-                </div>
-                <div style="display:flex;gap:10px;align-items:flex-start;">
-                  <div style="width:7px;height:7px;border-radius:50%;background:var(--emerald-light);margin-top:4px;flex-shrink:0;box-shadow:0 0 0 3px var(--emerald-soft)"></div>
-                  <div>
-                    <div style="font-size:12.5px;color:var(--slate-700);font-weight:500">Added document (Resume.pdf)</div>
-                    <div style="font-size:11px;color:var(--slate-400);font-weight:500">26 Apr 2026 · 10:15 AM</div>
-                  </div>
-                </div>
-                <div style="display:flex;gap:10px;align-items:flex-start;">
-                  <div style="width:7px;height:7px;border-radius:50%;background:var(--slate-300);margin-top:4px;flex-shrink:0"></div>
-                  <div>
-                    <div style="font-size:12.5px;color:var(--slate-700);font-weight:500">Approved leave request</div>
-                    <div style="font-size:11px;color:var(--slate-400);font-weight:500">25 Apr 2026 · 04:45 PM</div>
-                  </div>
-                </div>
-                <div style="display:flex;gap:10px;align-items:flex-start;">
-                  <div style="width:7px;height:7px;border-radius:50%;background:var(--slate-300);margin-top:4px;flex-shrink:0"></div>
-                  <div>
-                    <div style="font-size:12.5px;color:var(--slate-700);font-weight:500">Salary updated</div>
-                    <div style="font-size:11px;color:var(--slate-400);font-weight:500">24 Apr 2026 · 09:05 AM</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ACTIVITY LOG TABLE -->
-      <div class="panel activity-table">
-        <div class="panel-header">
-          <h3>Recent Activity / Logs</h3>
-          <div class="panel-actions">
-            <button class="panel-btn"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.08-5.96"/></svg></button>
-            <button class="panel-btn"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
-            <button class="panel-btn"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-          </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Date & Time</th>
-              <th>Activity</th>
-              <th>Module</th>
-              <th>Performed By</th>
-              <th>IP Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="font-size:12px;color:var(--slate-400);font-weight:500">26 Apr 2026 11:20 AM</td>
-              <td>Updated employee profile</td>
-              <td><span class="detail-tag">HRMS – Employees</span></td>
-              <td><div class="emp-cell"><div class="emp-avatar" style="width:24px;height:24px;font-size:9px;border-radius:6px">JD</div> John Doe</div></td>
-              <td style="font-size:12px;color:var(--slate-400);font-family:monospace;font-weight:500">192.168.1.10</td>
-            </tr>
-            <tr>
-              <td style="font-size:12px;color:var(--slate-400);font-weight:500">26 Apr 2026 10:15 AM</td>
-              <td>Added new document (Resume.pdf)</td>
-              <td><span class="detail-tag">HRMS – Employees</span></td>
-              <td><div class="emp-cell"><div class="emp-avatar" style="width:24px;height:24px;font-size:9px;border-radius:6px">JD</div> John Doe</div></td>
-              <td style="font-size:12px;color:var(--slate-400);font-family:monospace;font-weight:500">192.168.1.10</td>
-            </tr>
-            <tr>
-              <td style="font-size:12px;color:var(--slate-400);font-weight:500">25 Apr 2026 04:45 PM</td>
-              <td>Approved leave request</td>
-              <td><span class="detail-tag">HRMS – Leaves</span></td>
-              <td><div class="emp-cell"><div class="emp-avatar" style="width:24px;height:24px;font-size:9px;border-radius:6px;background:linear-gradient(135deg,#fb923c,#ea580c)">RB</div> Robert Brown</div></td>
-              <td style="font-size:12px;color:var(--slate-400);font-family:monospace;font-weight:500">192.168.1.15</td>
-            </tr>
-            <tr>
-              <td style="font-size:12px;color:var(--slate-400);font-weight:500">25 Apr 2026 03:10 PM</td>
-              <td>Marked attendance</td>
-              <td><span class="detail-tag">HRMS – Attendance</span></td>
-              <td><div class="emp-cell"><div class="emp-avatar" style="width:24px;height:24px;font-size:9px;border-radius:6px;background:var(--slate-400)">SY</div> System</div></td>
-              <td style="font-size:12px;color:var(--slate-400);font-family:monospace;font-weight:500">192.168.1.20</td>
-            </tr>
-            <tr>
-              <td style="font-size:12px;color:var(--slate-400);font-weight:500">24 Apr 2026 09:05 AM</td>
-              <td>Salary updated</td>
-              <td><span class="detail-tag">HRMS – Payroll</span></td>
-              <td><div class="emp-cell"><div class="emp-avatar" style="width:24px;height:24px;font-size:9px;border-radius:6px;background:linear-gradient(135deg,#a78bfa,#7c3aed)">JS</div> Jane Smith</div></td>
-              <td style="font-size:12px;color:var(--slate-400);font-family:monospace;font-weight:500">192.168.1.11</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
+      </section>
     </div>
-  </div>
+  </main>
 
-</div><!-- app-body -->
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-left">
-    <span class="footer-brand">© 2026 AcmeERP. All rights reserved.</span>
-    <span class="footer-dot"></span>
-    <div class="env-badge">
-      <span class="env-dot"></span>
-      <span class="env-label">Production</span>
+  <footer class="footer">
+    <div class="footer-status">
+      <div class="footer-dot"></div>
+      ERP System v2.4.0 • Status: Operational
     </div>
-    <span class="footer-dot"></span>
-    <span class="footer-version">Version 1.0.0</span>
-  </div>
-  <div class="footer-links">
-    <a href="#">Privacy Policy</a>
-    <a href="#">Help</a>
-  </div>
-</footer>
+    <div style="display:flex; gap:16px;">
+      <a href="#" style="color:var(--slate-400); text-decoration:none;">Support</a>
+      <a href="#" style="color:var(--slate-400); text-decoration:none;">Privacy</a>
+      <a href="#" style="color:var(--slate-400); text-decoration:none;">Terms</a>
+      <span style="color:var(--outline);">|</span>
+      <span style="color:var(--slate-400);">Server: US-EAST-1 (v8.1.2)</span>
+    </div>
+  </footer>
 
-<script>
-  function setActive(el) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
-  }
-  function setSubActive(el) {
-    document.querySelectorAll('.sub-item').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
-  }
-  function setSubTab(el) {
-    document.querySelectorAll('.sub-tab').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
-  }
-  function setDetailTab(el) {
-    document.querySelectorAll('.detail-tab').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
-  }
-  function setPage(el) {
-    document.querySelectorAll('.page-btn').forEach(n => n.classList.remove('active'));
-    el.classList.add('active');
-  }
-  function selectRow(row) {
-    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('selected'));
-    row.classList.add('selected');
-  }
-  function toggleDropdown(btn) {
-    const menu = btn.nextElementSibling;
-    menu.classList.toggle('show');
-    document.addEventListener('click', function handler(e) {
-      if (!btn.parentElement.contains(e.target)) {
-        menu.classList.remove('show');
-        document.removeEventListener('click', handler);
-      }
+  <script>
+    let INITIAL_DASHBOARD_HTML = '';
+    document.addEventListener('DOMContentLoaded', () => {
+      INITIAL_DASHBOARD_HTML = document.querySelector('.app-content').innerHTML;
+      renderDrillMenu('dashboard');
     });
-  }
-  function toggleSidebar() {
-    const s = document.getElementById('sidebar');
-    const current = s.getBoundingClientRect().width;
-    s.style.transition = 'width .22s cubic-bezier(.4,0,.2,1), opacity .22s ease';
-    if (current > 10) {
-      s.style.width = '0px';
-      s.style.opacity = '0';
-    } else {
-      s.style.width = 'var(--sidebar-w)';
-      s.style.opacity = '1';
+
+    const MODULE_DATA = {
+      dashboard: {
+        title: "Module Explorer",
+        items: [
+          { icon: "dashboard", label: "Dashboard" },
+          { icon: "bar_chart", label: "Reports" },
+          { icon: "receipt_long", label: "Transactions" },
+          { icon: "settings", label: "Configuration" },
+          { icon: "verified_user", label: "Audits" }
+        ]
+      },
+      hrms: {
+        title: "HR Management",
+        items: [
+          { icon: "badge", label: "Employees" },
+          { icon: "payments", label: "Payroll" },
+          { icon: "event_available", label: "Attendance" },
+          { icon: "trending_up", label: "Performance" },
+          { icon: "person_add", label: "Recruitment" }
+        ]
+      },
+      finance: {
+        title: "Finance & Accounts",
+        items: [
+          { icon: "account_balance", label: "General Ledger" },
+          { icon: "shopping_cart", label: "Accounts Payable" },
+          { icon: "sell", label: "Accounts Receivable" },
+          { icon: "account_balance_wallet", label: "Tax Management" },
+          { icon: "currency_exchange", label: "Banking" }
+        ]
+      },
+      assets: {
+        title: "Asset Management",
+        items: [
+          { icon: "category", label: "Asset Registry" },
+          { icon: "build", label: "Maintenance" },
+          { icon: "trending_down", label: "Depreciation" },
+          { icon: "location_on", label: "Tracking" },
+          { icon: "delete_outline", label: "Disposal" }
+        ]
+      },
+      inventory: {
+        title: "Inventory Control",
+        items: [
+          { icon: "inventory", label: "Stock Levels" },
+          { icon: "warehouse", label: "Warehouses" },
+          { icon: "shopping_bag", label: "Purchase Orders" },
+          { icon: "local_shipping", label: "Suppliers" },
+          { icon: "swap_horiz", label: "Stock Transfers" }
+        ]
+      }
+    };
+
+    function setActive(el, moduleKey) {
+      const isMain = el.classList.contains('nav-item');
+      const selector = isMain ? '.nav-item' : '.drill-item';
+      document.querySelectorAll(selector).forEach(n => n.classList.remove('active'));
+      el.classList.add('active');
+
+      if (moduleKey && MODULE_DATA[moduleKey]) {
+        renderDrillMenu(moduleKey);
+      }
+
+      if (!isMain) {
+        const subLabel = el.getAttribute('data-label');
+        const moduleTitle = document.querySelector('.drill-header h2').textContent;
+        renderMainContent(moduleTitle, subLabel);
+      }
     }
-  }
-</script>
+
+    const MOCK_RECORDS = {
+      "Employees": {
+        cols: ["Employee ID", "Full Name", "Department", "Status"],
+        rows: [
+          ["EMP-001", "James Wilson", "Engineering", "Active"],
+          ["EMP-002", "Sarah Jenkins", "Marketing", "On Leave"],
+          ["EMP-003", "Michael Chen", "Finance", "Active"],
+          ["EMP-004", "Emma Thompson", "Operations", "Probation"]
+        ]
+      },
+      "Payroll": {
+        cols: ["Transaction ID", "Employee", "Amount", "Period"],
+        rows: [
+          ["PAY-992", "James Wilson", "$5,240.00", "Oct 2023"],
+          ["PAY-991", "Michael Chen", "$4,850.00", "Oct 2023"],
+          ["PAY-990", "Emma Thompson", "$3,900.00", "Oct 2023"]
+        ]
+      },
+      "Stock Levels": {
+        cols: ["SKU", "Item Name", "Quantity", "Warehouse"],
+        rows: [
+          ["ITM-442", "High-Speed Processor", "1,240 units", "Warehouse A"],
+          ["ITM-443", "Industrial Sensor", "850 units", "Warehouse B"],
+          ["ITM-445", "Control Board", "300 units", "Warehouse A"]
+        ]
+      },
+      "Asset Registry": {
+        cols: ["Serial #", "Asset Name", "Valuation", "Location"],
+        rows: [
+          ["AST-8821", "Mainframe Server", "$45,000", "Data Center"],
+          ["AST-8822", "Backup Generator", "$12,500", "External Yard"],
+          ["AST-8823", "Fiber Link Rack", "$8,200", "Comm Room"]
+        ]
+      },
+      "Configuration": {
+        cols: ["Setting ID", "Parameter Name", "Current Value", "Status"],
+        rows: [
+          ["CFG-001", "System Operating Mode", "Enterprise Edition", "Active"],
+          ["CFG-002", "API Endpoint Access", "v2.4 (TLS 1.3)", "Secured"],
+          ["CFG-003", "Automated Backup", "Daily @ 02:00 UTC", "Verified"],
+          ["CFG-004", "Global SMTP Relay", "smtp.acme.cloud", "Operational"],
+          ["CFG-005", "Auth Protocol", "SSO + Biometric MFA", "Enforced"]
+        ]
+      },
+      "Audits": {
+        cols: ["Log ID", "Event Type", "Actor", "Timestamp", "Result"],
+        rows: [
+          ["AUD-901", "System Login", "admin_01", "2023-11-02 08:30", "Success"],
+          ["AUD-902", "Record Deletion", "j.wilson", "2023-11-02 10:15", "Logged"],
+          ["AUD-903", "Config Change", "sys_sec", "2023-11-01 16:45", "Authorized"]
+        ]
+      },
+      "Attendance": {
+        cols: ["Emp ID", "Employee Name", "Check-in", "Status"],
+        rows: [
+          ["EMP-001", "James Wilson", "08:55 AM", "On Time"],
+          ["EMP-002", "Sarah Jenkins", "09:12 AM", "Late"],
+          ["EMP-003", "Michael Chen", "08:30 AM", "On Time"]
+        ]
+      },
+      "General Ledger": {
+        cols: ["Acc Code", "Account Name", "Current Balance", "Type"],
+        rows: [
+          ["1001", "Cash at Bank", "$240,500.00", "Asset"],
+          ["2001", "Accounts Payable", "$45,200.00", "Liability"],
+          ["3001", "Retained Earnings", "$1,200,000.00", "Equity"]
+        ]
+      }
+    };
+
+    function getBadgeColor(status) {
+      const s = status.toLowerCase();
+      if (s.includes('active') || s.includes('completed') || s.includes('in stock')) return 'background:#dcfce7; color:#15803d;';
+      if (s.includes('leave') || s.includes('processing') || s.includes('low')) return 'background:#fef3c7; color:#d97706;';
+      return 'background:#f1f5f9; color:#64748b;';
+    }
+
+    function renderMainContent(module, sub) {
+      const main = document.querySelector('.app-content');
+
+      if (sub === 'Dashboard') {
+        main.innerHTML = INITIAL_DASHBOARD_HTML;
+        return;
+      }
+
+      // Special case for Reports to show the Dashboard UI with a Reports header
+      if (sub === 'Reports') {
+        main.innerHTML = `
+          <div style="animation: fadeIn 0.4s ease-out;">
+            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+              <div>
+                <nav style="display:flex; align-items:center; gap:8px; font-size:11px; font-weight:700; color:var(--slate-400); text-transform:uppercase; margin-bottom:4px;">
+                  <span>${module}</span>
+                  <span class="material-symbols-outlined" style="font-size:14px;">chevron_right</span>
+                  <span style="color:var(--primary);">${sub}</span>
+                </nav>
+                <h1 style="font-size:24px; font-weight:800; color:var(--slate-900); letter-spacing:-0.5px;">Reports Management</h1>
+              </div>
+            </header>
+
+            <div class="grid-layout" style="grid-template-rows: auto;">
+              <!-- Top Stats -->
+              <div style="grid-column: span 12; display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; margin-bottom:12px;">
+                <div class="panel" style="padding:24px; background:linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border:none; box-shadow:var(--shadow-sm);">
+                  <div style="display:flex; justify-content:space-between; align-items:start;">
+                    <div>
+                      <p style="font-size:13px; font-weight:700; color:var(--slate-500);">Revenue Today</p>
+                      <h2 style="font-size:32px; font-weight:900; color:var(--slate-900); margin:8px 0;">$12,840</h2>
+                      <p style="font-size:13px; color:#10b981; font-weight:700;">+5,50% <span style="color:var(--slate-400); font-weight:500;">from Yesterday</span></p>
+                    </div>
+                    <div style="background:white; padding:8px; border-radius:8px; box-shadow:var(--shadow-sm); color:var(--primary);">
+                      <span class="material-symbols-outlined">payments</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel" style="padding:24px; background:linear-gradient(135deg, #f8fafc 0%, #ecfdf5 100%); border:none; box-shadow:var(--shadow-sm);">
+                  <div style="display:flex; justify-content:space-between; align-items:start;">
+                    <div>
+                      <p style="font-size:13px; font-weight:700; color:var(--slate-500);">Orders Complete</p>
+                      <h2 style="font-size:32px; font-weight:900; color:var(--slate-900); margin:8px 0;">287</h2>
+                      <p style="font-size:13px; color:#10b981; font-weight:700;">+6,20% <span style="color:var(--slate-400); font-weight:500;">from Yesterday</span></p>
+                    </div>
+                    <div style="background:white; padding:8px; border-radius:8px; box-shadow:var(--shadow-sm); color:#10b981;">
+                      <span class="material-symbols-outlined">shopping_bag</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel" style="padding:24px; background:linear-gradient(135deg, #f8fafc 0%, #fefce8 100%); border:none; box-shadow:var(--shadow-sm);">
+                  <div style="display:flex; justify-content:space-between; align-items:start;">
+                    <div>
+                      <p style="font-size:13px; font-weight:700; color:var(--slate-500);">Returning Customer</p>
+                      <h2 style="font-size:32px; font-weight:900; color:var(--slate-900); margin:8px 0;">84</h2>
+                      <p style="font-size:13px; color:#10b981; font-weight:700;">+8,20% <span style="color:var(--slate-400); font-weight:500;">from Yesterday</span></p>
+                    </div>
+                    <div style="background:white; padding:8px; border-radius:8px; box-shadow:var(--shadow-sm); color:var(--secondary);">
+                      <span class="material-symbols-outlined">groups</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Analytics Row -->
+              <div class="panel" style="grid-column: span 8; padding: 24px;">
+                <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                  <div>
+                    <h3 style="font-size:18px; font-weight:800; color:var(--slate-900);">Orders Analytics</h3>
+                    <div style="display:flex; gap:12px; margin-top:4px;">
+                      <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:var(--slate-500);">
+                        <div style="width:8px; height:8px; border-radius:50%; background:var(--primary);"></div> Income
+                      </div>
+                      <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:var(--slate-500);">
+                        <div style="width:8px; height:8px; border-radius:50%; background:var(--secondary);"></div> Expense
+                      </div>
+                    </div>
+                  </div>
+                  <select style="padding:6px 12px; border-radius:8px; border:1px solid var(--outline); font-size:12px; font-weight:600; background:white;">
+                    <option>This Year</option>
+                  </select>
+                </header>
+                <div style="height:240px; width:100%; position:relative; margin-top:10px;">
+                  <svg viewBox="0 0 800 240" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
+                    <!-- Grid Lines -->
+                    <line x1="0" y1="40" x2="800" y2="40" stroke="var(--slate-100)" stroke-width="1" stroke-dasharray="4,4" />
+                    <line x1="0" y1="90" x2="800" y2="90" stroke="var(--slate-100)" stroke-width="1" stroke-dasharray="4,4" />
+                    <line x1="0" y1="140" x2="800" y2="140" stroke="var(--slate-100)" stroke-width="1" stroke-dasharray="4,4" />
+                    <line x1="0" y1="190" x2="800" y2="190" stroke="var(--slate-100)" stroke-width="1" stroke-dasharray="4,4" />
+
+                    <defs>
+                      <linearGradient id="chartGradientReports" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.1" />
+                        <stop offset="100%" stop-color="var(--primary)" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    
+                    <!-- Area Fill -->
+                    <path d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40 V200 H0 Z" fill="url(#chartGradientReports)" />
+                    
+                    <!-- Lines -->
+                    <path d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" />
+                    <path d="M0,175 Q100,145 200,185 T400,115 T600,165 T800,95" fill="none" stroke="var(--secondary)" stroke-width="2.5" stroke-dasharray="8,5" stroke-linecap="round" stroke-opacity="0.6" />
+                  </svg>
+                  <div style="display:flex; justify-content:space-between; margin-top:16px; color:var(--slate-400); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; padding:0 4px;">
+                    <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel" style="grid-column: span 4; padding: 24px;">
+                <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                  <h3 style="font-size:18px; font-weight:800; color:var(--slate-900);">Top Sales</h3>
+                  <button style="color:var(--primary); font-size:12px; font-weight:700; background:none; border:none; cursor:pointer;">See Details</button>
+                </header>
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+                  <h2 style="font-size:28px; font-weight:900; color:var(--slate-900);">10,432</h2>
+                  <span style="color:#10b981; font-size:11px; font-weight:800; background:#dcfce7; padding:2px 8px; border-radius:12px;">+512</span>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:18px;">
+                  <div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                      <span style="font-weight:700; color:var(--slate-700);">Smartphones</span>
+                      <span style="color:var(--slate-400);">300 Units</span>
+                    </div>
+                    <div style="height:6px; background:var(--slate-100); border-radius:10px; overflow:hidden;">
+                      <div style="width:75%; height:100%; background:var(--primary);"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                      <span style="font-weight:700; color:var(--slate-700);">Laptops</span>
+                      <span style="color:var(--slate-400);">500 Units</span>
+                    </div>
+                    <div style="height:6px; background:var(--slate-100); border-radius:10px; overflow:hidden;">
+                      <div style="width:90%; height:100%; background:var(--secondary);"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
+                      <span style="font-weight:700; color:var(--slate-700);">Smart TVs</span>
+                      <span style="color:var(--slate-400);">237 Units</span>
+                    </div>
+                    <div style="height:6px; background:var(--slate-100); border-radius:10px; overflow:hidden;">
+                      <div style="width:45%; height:100%; background:var(--tertiary);"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Products Table -->
+              <section class="panel" style="grid-column: span 12; padding: 0;">
+                <header style="padding: 20px 24px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--outline);">
+                  <h3 style="font-size:18px; font-weight:800; color:var(--slate-900);">Products</h3>
+                  <div style="display:flex; gap:12px;">
+                    <div class="topbar-search" style="max-width:240px; background:var(--slate-50); height:36px;">
+                      <span class="material-symbols-outlined" style="font-size:18px;">search</span>
+                      <input type="text" placeholder="Search Product..." style="font-size:13px;">
+                    </div>
+                    <button style="background:var(--primary); color:white; border:none; padding:0 16px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; height:36px; display:flex; align-items:center; gap:8px;">
+                      <span class="material-symbols-outlined" style="font-size:18px;">add_circle</span>
+                      Add New Product
+                    </button>
+                  </div>
+                </header>
+                <div style="overflow-x: auto;">
+                  <table class="zebra-table" style="width:100%; border-collapse: collapse;">
+                    <thead>
+                      <tr>
+                        <th style="width:40px; padding:16px;"><input type="checkbox"></th>
+                        <th style="padding:16px;">Product</th>
+                        <th style="padding:16px;">Price</th>
+                        <th style="padding:16px;">Stock</th>
+                        <th style="padding:16px;">Revenue</th>
+                        <th style="padding:16px; text-align:center;">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding:16px;"><input type="checkbox" checked></td>
+                        <td style="padding:16px; font-weight:700; color:var(--slate-900);">Playstation 4 Limited Edition (with games)</td>
+                        <td style="padding:16px; color:var(--slate-500);">$14.81</td>
+                        <td style="padding:16px; color:var(--slate-500);">883</td>
+                        <td style="padding:16px; font-weight:800; color:var(--slate-900);">$349.00</td>
+                        <td style="padding:16px; text-align:center;"><span style="background:#dcfce7; color:#15803d; font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:14px;">check_circle</span> In Stock</span></td>
+                      </tr>
+                      <tr>
+                        <td style="padding:16px;"><input type="checkbox"></td>
+                        <td style="padding:16px; font-weight:700; color:var(--slate-900);">Gaming Chair, local pickup only</td>
+                        <td style="padding:16px; color:var(--slate-500);">$5.22</td>
+                        <td style="padding:16px; color:var(--slate-500);">453</td>
+                        <td style="padding:16px; font-weight:800; color:var(--slate-900);">$354.00</td>
+                        <td style="padding:16px; text-align:center;"><span style="background:#dcfce7; color:#15803d; font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:14px;">check_circle</span> In Stock</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Special case for Transactions to show the Transaction History UI
+      if (sub === 'Transactions') {
+        const txData = [
+          { icon: 'SP', name: 'Shopify', amount: '- $18.49', date: 'August 18', category: 'Food & Drinks', catColor: '#fee2e2', catText: '#ef4444', account: 'Visa 9487', accIcon: 'credit_card', accSub: 'Expired in 24/10' },
+          { icon: 'GG', name: 'Gacha Games', amount: '- $199.99', date: 'June 22', category: 'Finance', catColor: '#e0e7ff', catText: '#6366f1', account: 'Mastercard 1212', accIcon: 'credit_card', accSub: 'Expired in 24/10' },
+          { icon: 'ST', name: 'Stripe', amount: '+ $20.99', date: 'May 11', category: 'Entertainment', catColor: '#ffedd5', catText: '#f97316', account: 'Visa 9487', accIcon: 'credit_card', accSub: 'Expired in 24/10', isPositive: true },
+          { icon: 'FM', name: 'Figma', amount: '- $15.00', date: 'April 20', category: 'Groceries', catColor: '#fef3c7', catText: '#f59e0b', account: 'Visa 9487', accIcon: 'credit_card', accSub: 'Expired in 24/10' },
+          { icon: 'GG', name: 'GG Fried Chicken', amount: '- $45.05', date: 'April 18', category: 'Subscription', catColor: '#e0e7ff', catText: '#6366f1', account: 'Mastercard 1212', accIcon: 'credit_card', accSub: 'Expired in 24/10' },
+          { icon: 'UF', name: 'Uber Foods', amount: '- $50.25', date: 'March 8', category: 'Income', catColor: '#dcfce7', catText: '#22c55e', account: 'Mastercard 1212', accIcon: 'credit_card', accSub: 'Expired in 24/10' },
+          { icon: 'PP', name: 'PayPal', amount: '+ $487.88', date: 'March 2', category: 'Electronics', catColor: '#fee2e2', catText: '#ef4444', account: 'Visa 9487', accIcon: 'credit_card', accSub: 'Expired in 24/10', isPositive: true },
+          { icon: 'GI', name: 'Genshin Impact', amount: '- $9,999.99', date: 'Feb 19', category: 'Gadget', catColor: '#dcfce7', catText: '#22c55e', account: 'Mastercard 1212', accIcon: 'credit_card', accSub: 'Expired in 24/10' }
+        ];
+
+        main.innerHTML = `
+          <div style="animation: fadeIn 0.4s ease-out;">
+            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--slate-400); margin-bottom:4px;">
+                  <span>${module}</span>
+                  <span class="material-symbols-outlined" style="font-size:14px;">chevron_right</span>
+                  <span style="color:var(--primary); font-weight:600;">${sub}</span>
+                </div>
+                <h1 style="font-size:24px; font-weight:800; color:var(--slate-900); letter-spacing:-0.5px;">Transaction History</h1>
+              </div>
+              <div style="display:flex; gap:12px;">
+                <button style="display:flex; align-items:center; gap:8px; padding:10px 20px; border:1.5px solid var(--outline); border-radius:30px; background:white; font-size:14px; font-weight:700; color:var(--slate-700); cursor:pointer;">
+                  <span class="material-symbols-outlined" style="font-size:20px;">calendar_today</span>
+                  Choose Date
+                </button>
+                <button style="display:flex; align-items:center; gap:8px; padding:10px 20px; background:var(--slate-900); color:white; border:none; border-radius:30px; font-size:14px; font-weight:700; cursor:pointer;">
+                  <span class="material-symbols-outlined" style="font-size:20px;">filter_list</span>
+                  Filter
+                </button>
+              </div>
+            </header>
+
+            <div class="panel" style="padding: 0;">
+              <div style="overflow-x: auto;">
+                <table style="width:100%; border-collapse: collapse;">
+                  <thead>
+                    <tr style="border-bottom: 1px solid var(--outline);">
+                      <th style="text-align:left; padding: 16px 24px; font-size:12px; font-weight:800; color:var(--slate-500); text-transform:uppercase; letter-spacing:0.5px;">Transactions</th>
+                      <th style="text-align:left; padding: 16px 24px; font-size:12px; font-weight:800; color:var(--slate-500); text-transform:uppercase; letter-spacing:0.5px;">Amount</th>
+                      <th style="text-align:left; padding: 16px 24px; font-size:12px; font-weight:800; color:var(--slate-500); text-transform:uppercase; letter-spacing:0.5px;">Date</th>
+                      <th style="text-align:left; padding: 16px 24px; font-size:12px; font-weight:800; color:var(--slate-500); text-transform:uppercase; letter-spacing:0.5px;">Category</th>
+                      <th style="text-align:left; padding: 16px 24px; font-size:12px; font-weight:800; color:var(--slate-500); text-transform:uppercase; letter-spacing:0.5px;">Account</th>
+                      <th style="width:60px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${txData.map(tx => `
+                      <tr style="border-bottom: 1px solid var(--outline); transition:0.2s;" onmouseover="this.style.background='var(--slate-50)'" onmouseout="this.style.background='white'">
+                        <td style="padding: 16px 24px;">
+                          <div style="display:flex; align-items:center; gap:16px;">
+                            <div style="width:40px; height:40px; background:var(--slate-50); border-radius:50%; display:grid; place-items:center; font-weight:800; color:var(--primary); font-size:12px; border:1px solid var(--outline);">
+                              ${tx.icon}
+                            </div>
+                            <span style="font-size:15px; font-weight:700; color:var(--slate-900);">${tx.name}</span>
+                          </div>
+                        </td>
+                        <td style="padding: 16px 24px;">
+                          <span style="font-size:15px; font-weight:700; color: ${tx.isPositive ? '#22c55e' : 'var(--slate-900)'};">${tx.amount}</span>
+                        </td>
+                        <td style="padding: 16px 24px;">
+                          <span style="font-size:14px; color:var(--slate-600); font-weight:500;">${tx.date}</span>
+                        </td>
+                        <td style="padding: 16px 24px;">
+                          <span style="background:${tx.catColor}; color:${tx.catText}; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:800;">${tx.category}</span>
+                        </td>
+                        <td style="padding: 16px 24px;">
+                          <div style="display:flex; align-items:center; gap:12px;">
+                            <span class="material-symbols-outlined" style="color:var(--slate-400);">${tx.accIcon}</span>
+                            <div>
+                              <div style="font-size:14px; font-weight:700; color:var(--slate-900);">${tx.account}</div>
+                              <div style="font-size:11px; color:var(--slate-400); font-weight:600;">${tx.accSub}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td style="padding: 16px 24px; text-align:right;">
+                          <button class="icon-btn" style="color:var(--slate-400);"><span class="material-symbols-outlined" style="font-size:18px;">edit</span></button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div style="padding: 24px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; gap:12px;">
+                  <button class="icon-btn" style="border:1px solid var(--outline); background:white; width:36px; height:36px;"><span class="material-symbols-outlined">chevron_left</span></button>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                  <span style="width:32px; height:32px; display:grid; place-items:center; font-size:14px; color:var(--slate-400); font-weight:700; cursor:pointer;">1</span>
+                  <span style="width:32px; height:32px; display:grid; place-items:center; font-size:14px; color:var(--slate-400); font-weight:700; cursor:pointer;">2</span>
+                  <span style="width:32px; height:32px; display:grid; place-items:center; font-size:14px; color:var(--slate-400); font-weight:700; cursor:pointer;">3</span>
+                  <span style="width:32px; height:32px; display:grid; place-items:center; font-size:14px; color:var(--slate-400); font-weight:700; cursor:pointer;">4</span>
+                  <span style="width:32px; height:32px; display:grid; place-items:center; background:var(--primary); color:white; border-radius:50%; font-size:14px; font-weight:700; cursor:pointer;">5</span>
+                  <span style="font-size:14px; color:var(--slate-300);">...</span>
+                  <span style="width:32px; height:32px; display:grid; place-items:center; font-size:14px; color:var(--slate-400); font-weight:700; cursor:pointer;">99</span>
+                </div>
+                <div style="display:flex; gap:12px;">
+                  <button class="icon-btn" style="border:1px solid var(--outline); background:white; width:36px; height:36px;"><span class="material-symbols-outlined">chevron_right</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const mock = MOCK_RECORDS[sub] || {
+        cols: ["Record ID", "Name", "Date Modified", "Status"],
+        rows: [
+          ["REC-01", `${sub} Item A`, "2023-10-24", "Completed"],
+          ["REC-02", `${sub} Item B`, "2023-10-23", "Pending"],
+          ["REC-03", `${sub} Item C`, "2023-10-22", "Active"]
+        ]
+      };
+
+      main.innerHTML = `
+      <div style="animation: fadeIn 0.4s ease-out;">
+        <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--slate-400); margin-bottom:4px;">
+              <span>${module}</span>
+              <span class="material-symbols-outlined" style="font-size:14px;">chevron_right</span>
+              <span style="color:var(--primary); font-weight:600;">${sub}</span>
+            </div>
+            <h1 style="font-size:24px; font-weight:800; color:var(--slate-900); letter-spacing:-0.5px;">${sub} Management</h1>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <button class="icon-btn" style="border:1px solid var(--outline); background:white;"><span class="material-symbols-outlined">filter_list</span></button>
+            <button style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:10px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:8px;">
+              <span class="material-symbols-outlined">add</span>
+              Create New
+            </button>
+          </div>
+        </header>
+
+        <div class="grid-layout" style="grid-template-rows: auto;">
+          <div class="panel" style="grid-column: span 12; padding: 0;">
+            <div style="padding: 24px; border-bottom: 1px solid var(--outline); display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="font-size:16px; font-weight:800; color:var(--slate-900);">${sub} Records</h3>
+              <div class="topbar-search" style="max-width:300px; background:var(--slate-100);">
+                <span class="material-symbols-outlined">search</span>
+                <input type="text" placeholder="Search ${sub.toLowerCase()}...">
+              </div>
+            </div>
+            
+            <div style="overflow-x: auto;">
+              <table style="width:100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background:var(--slate-50);">
+                    <th style="width:40px; padding: 16px;"><input type="checkbox"></th>
+                    ${mock.cols.map(c => `
+                      <th style="text-align:left; padding: 16px; font-size:12px; font-weight:800; color:var(--slate-400); text-transform:uppercase; letter-spacing:0.5px;">${c}</th>
+                    `).join('')}
+                    <th style="width:60px;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${mock.rows.map(row => `
+                    <tr style="border-bottom: 1px solid var(--outline); transition:0.2s;" onmouseover="this.style.background='var(--slate-50)'" onmouseout="this.style.background='white'">
+                      <td style="padding: 16px;"><input type="checkbox"></td>
+                      ${row.map((cell, idx) => {
+        if (idx === mock.cols.length - 1) { // Last column is status
+          return `<td style="padding: 16px;"><span style="padding:4px 10px; border-radius:20px; font-size:11px; font-weight:800; ${getBadgeColor(cell)}">${cell}</span></td>`;
+        }
+        if (idx === 0) { // First column is ID/Main
+          return `<td style="padding: 16px; font-weight:700; color:var(--primary); font-size:14px;">${cell}</td>`;
+        }
+        return `<td style="padding: 16px; color:var(--slate-600); font-size:14px;">${cell}</td>`;
+      }).join('')}
+                      <td style="padding: 16px; text-align:right;">
+                        <span class="material-symbols-outlined" style="color:var(--slate-400); cursor:pointer;">more_horiz</span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+            
+            <div style="padding: 20px; display:flex; justify-content:space-between; align-items:center; background:var(--slate-50); border-radius:0 0 12px 12px;">
+              <span style="font-size:13px; color:var(--slate-500);">Showing 1 to ${mock.rows.length} of ${mock.rows.length * 12} entries</span>
+              <div style="display:flex; gap:8px;">
+                <button class="icon-btn" style="border:1px solid var(--outline); background:white; width:32px; height:32px;"><span class="material-symbols-outlined">chevron_left</span></button>
+                <button class="icon-btn" style="border:1px solid var(--outline); background:white; width:32px; height:32px;"><span class="material-symbols-outlined">chevron_right</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    }
+
+    function renderDrillMenu(key) {
+      const data = MODULE_DATA[key];
+      const nav = document.getElementById('drill-nav-content');
+      const headerTitle = document.querySelector('.drill-header h2');
+
+      headerTitle.textContent = data.title;
+      nav.innerHTML = data.items.map((item, idx) => `
+      <div class="drill-item ${idx === 0 ? 'active' : ''}" data-label="${item.label}" onclick="setActive(this)">
+        <span class="material-symbols-outlined">${item.icon}</span>
+        ${item.label}
+      </div>
+    `).join('');
+    }
+
+    function toggleSidebar() {
+      document.body.classList.toggle('sidebar-collapsed');
+    }
+  </script>
 </body>
+
 </html>
