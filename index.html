@@ -21,7 +21,7 @@
       --secondary-container: #d8e3fb;
       --tertiary: #3e3fcc;
       --tertiary-container: #585be6;
-      --background: #f7f9fb;
+      --background: #f1f5f9;
       --surface: #ffffff;
       --on-surface: #191c1e;
       --surface-variant: #e0e3e5;
@@ -38,9 +38,9 @@
       --slate-100: #f1f5f9;
       --slate-50: #f8fafc;
 
-      --sidebar-w: 240px;
-      --sidebar-collapsed-w: 64px;
-      --drill-w: 240px;
+      --sidebar-w: 260px;
+      --sidebar-collapsed-w: 80px;
+      --drill-w: 260px;
       --topbar-h: 64px;
       --radius: 12px;
       --radius-sm: 8px;
@@ -64,7 +64,11 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--background);
+      background: radial-gradient(at 0% 0%, rgba(226, 232, 240, 0.4) 0px, transparent 50%),
+                  radial-gradient(at 100% 0%, rgba(241, 245, 249, 0.5) 0px, transparent 50%),
+                  radial-gradient(at 100% 100%, rgba(226, 232, 240, 0.4) 0px, transparent 50%),
+                  radial-gradient(at 0% 100%, rgba(241, 245, 249, 0.5) 0px, transparent 50%),
+                  var(--background);
       color: var(--on-surface);
       height: 100vh;
       line-height: 1.5;
@@ -79,18 +83,19 @@
     /* ── TOPBAR ── */
     .topbar {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 12px;
+      left: calc(var(--sidebar-w) + var(--drill-w) + 12px);
+      right: 12px;
       height: var(--topbar-h);
       background: var(--surface);
-      border-bottom: 1px solid var(--outline);
+      border-radius: 24px 24px 0 0;
       display: flex;
       align-items: center;
-      padding: 0;
-      height: var(--topbar-h);
+      padding: 0 24px;
       z-index: 100;
       box-shadow: var(--shadow-xs);
+      transition: left var(--transition);
+      border-bottom: 1px solid var(--outline);
     }
 
     .topbar-toggle-area {
@@ -103,13 +108,16 @@
     .topbar-logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       text-decoration: none;
-      font-size: 18px;
-      font-weight: 600;
       color: var(--slate-900);
-      white-space: nowrap;
-      margin-right: 24px;
+      font-weight: 700;
+      font-size: 16px;
+      transition: opacity var(--transition);
+    }
+
+    body:not(.sidebar-collapsed) .topbar-logo {
+      display: none;
     }
 
     .topbar-search {
@@ -230,18 +238,56 @@
 
     .sidebar {
       position: fixed;
-      left: 0;
-      top: var(--topbar-h);
-      bottom: 0;
-      width: var(--sidebar-w);
+      left: 12px;
+      top: 12px;
+      bottom: 12px;
+      width: calc(var(--sidebar-w) - 12px);
       background: var(--surface);
-      border-right: 1px solid var(--outline);
+      border-radius: 24px;
       display: flex;
       flex-direction: column;
-      z-index: 60;
-      padding: 12px 0;
-      transition: width var(--transition);
+      z-index: 110;
+      padding: 0;
+      box-shadow: var(--shadow-md);
+      transition: width var(--transition), box-shadow var(--transition);
       overflow: hidden;
+    }
+
+    .sidebar-header {
+      height: var(--topbar-h);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    body.sidebar-collapsed .sidebar-header {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sidebar-branding {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: 16px;
+      opacity: 1;
+      transition: opacity var(--transition);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    body.sidebar-collapsed .sidebar-branding {
+      display: none;
+    }
+
+    .sidebar-branding span {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--slate-900);
+      letter-spacing: -0.2px;
     }
 
     .sidebar-toggle-area {
@@ -353,31 +399,35 @@
     /* ── DRILL SIDEBAR ── */
     .drill-sidebar {
       position: fixed;
-      left: var(--sidebar-w);
-      top: var(--topbar-h);
-      bottom: 0;
-      width: var(--drill-w);
-      background: var(--slate-50);
-      border-right: 1px solid var(--outline);
+      left: calc(var(--sidebar-w) + 12px);
+      top: 12px;
+      bottom: 12px;
+      width: calc(var(--drill-w) - 12px);
+      background: var(--surface);
+      border-radius: 24px;
       display: flex;
       flex-direction: column;
       z-index: 40;
-      padding: 12px;
-      transition: left var(--transition), width var(--transition), opacity var(--transition);
+      padding: 0;
+      box-shadow: var(--shadow-md);
+      transition: left var(--transition), width var(--transition), opacity var(--transition), box-shadow var(--transition);
       overflow: hidden;
     }
 
-    /* Drill sidebar is now persistent */
-
     .drill-header {
-      padding: 12px 8px;
-      margin-bottom: 8px;
+      height: var(--topbar-h);
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 16px;
     }
 
     .drill-header h2 {
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 18px;
+      font-weight: 600;
       color: var(--slate-900);
+      letter-spacing: -0.4px;
     }
 
     .drill-header p {
@@ -390,9 +440,9 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 12px;
-      border-radius: 10px;
-      margin-bottom: 8px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin: 0 12px 8px 12px;
       cursor: pointer;
       font-size: 14.5px;
       font-weight: 500;
@@ -406,11 +456,10 @@
     }
 
     .drill-item.active {
-      background: rgba(0, 64, 224, 0.08);
-      color: var(--primary);
-      font-weight: 600;
-      border-right: 3px solid var(--primary);
-      border-radius: 8px 0 0 8px;
+      background: var(--slate-100);
+      color: var(--slate-900);
+      font-weight: 700;
+      border-radius: 10px;
     }
 
     .drill-item .material-symbols-outlined {
@@ -428,11 +477,16 @@
 
     /* ── WORKSPACE ── */
     .app-content {
-      margin-left: calc(var(--sidebar-w) + var(--drill-w));
-      margin-top: var(--topbar-h);
-      height: calc(100vh - var(--topbar-h));
+      margin-left: calc(var(--sidebar-w) + var(--drill-w) + 12px);
+      margin-top: calc(var(--topbar-h) + 12px);
+      margin-right: 12px;
+      margin-bottom: 12px;
+      height: calc(100vh - var(--topbar-h) - 68px);
+      background: var(--surface);
+      border-radius: 0 0 24px 24px;
+      box-shadow: var(--shadow-sm);
       overflow-y: auto;
-      padding: 24px;
+      padding: 32px;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -498,16 +552,15 @@
     /* ── FOOTER ── */
     .footer {
       position: fixed;
-      bottom: 0;
-      right: 0;
-      left: calc(var(--sidebar-w) + var(--drill-w));
+      bottom: 12px;
+      right: 24px;
+      left: calc(var(--sidebar-w) + var(--drill-w) + 24px);
       height: 32px;
-      background: var(--surface);
-      border-top: 1px solid var(--outline);
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: var(--slate-400);
@@ -585,6 +638,18 @@
 
   <!-- ══ MAIN SIDEBAR ══ -->
   <aside class="sidebar">
+    <div class="sidebar-header">
+      <button onclick="toggleSidebar()" class="icon-btn"
+        style="color:var(--slate-400); background:none; border:none; cursor:pointer;">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <div class="sidebar-branding">
+        <div style="width:32px; height:32px; background:var(--primary); border-radius:8px; display:grid; place-items:center; color:white; box-shadow:0 4px 10px rgba(0,64,224,0.2);">
+          <span class="material-symbols-outlined" style="font-size:20px; font-variation-settings:'FILL' 1; color:white;">terminal</span>
+        </div>
+        <span>Enterprise ERP</span>
+      </div>
+    </div>
     <nav class="nav-list">
       <div class="nav-item active" onclick="setActive(this, 'dashboard')" title="Dashboard">
         <span class="material-symbols-outlined">dashboard</span>
@@ -624,7 +689,6 @@
   <aside class="drill-sidebar">
     <div class="drill-header">
       <h2>Module Explorer</h2>
-      <p>Contextual Menu</p>
     </div>
 
     <nav id="drill-nav-content">
@@ -665,11 +729,6 @@
 
   <!-- ══ TOPBAR ══ -->
   <header class="topbar">
-    <div class="topbar-toggle-area">
-      <button class="icon-btn" onclick="toggleSidebar()" style="color: var(--slate-900);">
-        <span class="material-symbols-outlined">menu</span>
-      </button>
-    </div>
     <div class="topbar-logo">
       <div class="sidebar-logo-icon" style="width: 32px; height: 32px; border-radius: 8px;">
         <span class="material-symbols-outlined"
@@ -942,16 +1001,16 @@
   </main>
 
   <footer class="footer">
-    <div class="footer-status">
-      <div class="footer-dot"></div>
+    <div class="footer-status" style="color: #34d399;">
+      <div class="footer-dot" style="background: #34d399;"></div>
       ERP System v2.4.0 • Status: Operational
     </div>
-    <div style="display:flex; gap:16px;">
+    <div style="display:flex; gap:16px; align-items:center;">
       <a href="#" style="color:var(--slate-400); text-decoration:none;">Support</a>
       <a href="#" style="color:var(--slate-400); text-decoration:none;">Privacy</a>
       <a href="#" style="color:var(--slate-400); text-decoration:none;">Terms</a>
-      <span style="color:var(--outline);">|</span>
-      <span style="color:var(--slate-400);">Server: US-EAST-1 (v8.1.2)</span>
+      <span style="color:var(--slate-700);">|</span>
+      <span style="color:var(--slate-500);">Server: US-EAST-1 (v8.1.2)</span>
     </div>
   </footer>
 
